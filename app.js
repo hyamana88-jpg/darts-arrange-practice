@@ -38,69 +38,6 @@ const STANDARD_ROUTES = {
   }
 };
 
-const EXPLANATIONS = {
-  24:{
-    title:"24 の考え方",
-    text:"24 は D12 がそのまま見える基本残りです。偶数で、ダブルに直結するため迷いにくい点数です。",
-    tips:["シンプルに D12 を狙いやすい残りです","偶数残しの基本として扱いやすい数字です"]
-  },
-  32:{
-    title:"32 の考え方",
-    text:"32 は D16 を続けて狙いやすく、最も安定しやすい残しの1つです。外して S16 に入っても再び 16 が残ります。",
-    tips:["同じダブルを続けて狙える代表例です","外しても次が残りやすい残しです"]
-  },
-  40:{
-    title:"40 の考え方",
-    text:"40 は D20 をそのまま狙える最も基本的なフィニッシュです。アレンジの基準点としてよく使われます。",
-    tips:["定番のダブルフィニッシュです","迷ったときの基準にしやすい数字です"]
-  },
-  50:{
-    title:"50 の考え方",
-    text:"ファットブル系では BULL でそのまま上がれる代表例です。ルールによって価値が大きく変わる点数です。",
-    tips:["ファットブルでは BULL 1本で終了です","セパレートブル・ダブルアウトでは扱いが変わります"]
-  },
-  60:{
-    title:"60 の考え方",
-    text:"60 はルールで考え方が変わります。マスターなら T20、セパレートブル・ダブルアウトなら S20→D20 の形が代表例です。",
-    tips:["1本で終わるか、ダブルに寄せるかをルールで切り替えます","ルール差を理解しやすい点数です"]
-  },
-  65:{
-    title:"65 の考え方",
-    text:"65 はブルを使う考え方が目立つ数字です。セパレートブル・ダブルアウトでは SB→D20、ファットブル系では BULL を絡める考え方があります。",
-    tips:["ブル狙いが有効になりやすい代表例です","プレイヤーの得意不得意で選択が分かれます"]
-  },
-  70:{
-    title:"70 の考え方",
-    text:"70 台は 16 残しや 8 残しを意識して組み立てる考え方がよく使われます。代表的には T18→D8 です。",
-    tips:["70 台は 16 残しの発想で覚えやすいです","外しても次を組み立てやすい形を意識します"]
-  },
-  72:{
-    title:"72 の考え方",
-    text:"72 は T16→D12 や T12→D18 が代表的です。16 系・12 系のどちらに寄せるかは好みや得意ダブルで変わります。",
-    tips:["唯一の正解ではなく、代表候補が複数あります","得意ダブルに寄せる考え方がしやすい数字です"]
-  },
-  80:{
-    title:"80 の考え方",
-    text:"80 は T20→D10 が代表例です。20 始動で覚えやすく、標準候補として扱いやすい数字です。",
-    tips:["20 のラインを使うため覚えやすいです","高いシングルを絡める考え方もあります"]
-  },
-  90:{
-    title:"90 の考え方",
-    text:"90 は T20→D15 が代表的です。90 台の覚え方の入口として使いやすく、20 始動の基本形として覚えられます。",
-    tips:["20 始動の定番です","90 台の中では比較的覚えやすい点数です"]
-  },
-  91:{
-    title:"91 の考え方",
-    text:"91 は T17→D20 が代表例です。『51 → 40』の形で覚える説明もよく使われます。",
-    tips:["91 → 51 → 40 の覚え方が有名です","最後を 40 に寄せる考え方の代表例です"]
-  },
-  100:{
-    title:"100 の考え方",
-    text:"100 は T20→D20 が基本候補です。高い残りでありながら、覚えやすく定番として扱いやすい数字です。",
-    tips:["T20 始動の代表例です","標準候補として最初に覚えやすい 3 桁の残りです"]
-  }
-};
-
 let checkoutData = [];
 let checkoutByScore = new Map();
 
@@ -198,47 +135,18 @@ function routeEquals(a,b){
   }
   return true;
 }
-function genericExplanation(score){
-  if(score <= 40){
-    return {
-      title: `${score} の考え方`,
-      text: '40 以下は、早くダブルを狙えるか、外しても次が残るかが重要です。40・32・24 のような基本ダブルを意識する考え方がよく使われます。',
-      tips:['低い残りでは安定したダブル残しを優先します','バーストを避ける意識が大切です']
-    };
-  }
-  if(score <= 60){
-    return {
-      title:`${score} の考え方`,
-      text:'41〜60 はシングルを外したときの保険や、次にダブルへつなげやすい残し方が重要です。無理に派手なルートより、次につながる形を優先します。',
-      tips:['外しても次が残るルートを意識します','自分の得意ナンバーに寄せる考え方も有効です']
-    };
-  }
-  if(score <= 80){
-    return {
-      title:`${score} の考え方`,
-      text:'60〜80 台は、16 残し・12 残しなど、終盤のダブルに寄せる発想が使いやすいゾーンです。20 始動か、狙いやすいトリプル始動かを選びます。',
-      tips:['70 台は 16 残しの発想で覚えやすいです','唯一の正解ではなく、代表候補が複数あることもあります']
-    };
-  }
-  if(score <= 100){
-    return {
-      title:`${score} の考え方`,
-      text:'80〜100 はトリプル始動の定番アレンジが多いゾーンです。高い残りでも、最後に良いダブルを残せるかを基準に考えます。',
-      tips:['20 始動の定番候補が多い範囲です','覚え方でまとめると整理しやすいゾーンです']
-    };
-  }
-  return {
-    title:`${score} の考え方`,
-    text:'100 を超える残りでは、上がりきることだけでなく、次ターンに良い形を残せるかも重要です。無理せず、次につながる組み立てを考えます。',
-    tips:['一度で上がれなくても、次の上がり目を作る発想が大切です','プレイヤーの得意ナンバーで選択が分かれます']
-  };
-}
 function updateExplanation(){
-  if(!answerShown && !resultReceipt){ document.getElementById('explainTitle').textContent = '考え方 / ' + currentModeLabel(); document.getElementById('explainText').textContent = '「回答する」を押すと解説を表示します。'; document.getElementById('tipList').textContent = ''; return; }
-  const data = currentMode() === 'sep_double' && EXPLANATIONS[startScore] ? EXPLANATIONS[startScore] : genericExplanation(startScore);
-  document.getElementById('explainTitle').textContent = data.title + ' / ' + currentModeLabel();
-  document.getElementById('explainText').textContent = data.text;
-  document.getElementById('tipList').innerHTML = (data.tips || []).map(t=>`<li>${t}</li>`).join('');
+  document.getElementById('explainTitle').textContent = `${startScore}点の組み立て`;
+  const route=standardRoutes(startScore)[0];
+  let text='回答後に表示します。';
+  if(answerShown){
+    if(!route) text='現在のルールでは3本以内に上がれない点数です。';
+    else {
+      const last=route.at(-1), finish=Core.value(last);
+      text=route.length===1 ? `${Dartboard.label(last)}で直接上がれます。` : `${route.slice(0,-1).join(' → ')}で${startScore-finish}点を取り、${finish}点を残す例です。最後は${Dartboard.label(last)}。`;
+    }
+  }
+  document.getElementById('explainText').textContent=text;
 }
 function updateRoutes(){
   if(!answerShown && !resultReceipt){ document.getElementById('routeArea').textContent = '「回答する」を押すと候補を表示します。'; return; }

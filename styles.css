@@ -351,3 +351,8 @@ body{background:#eef2ff}
 .missItem{padding:7px 10px}
 #missPlans .missItem p{margin:3px 0 0}
 @media(max-height:650px){.missItem{padding:5px 8px}#missPlans{font-size:13px}.nextTurn{font-size:12px}}
+
+.resultNav{grid-template-columns:repeat(3,minmax(0,1fr))}
+#explanationScreen h2{font-size:18px}
+#explanationScreen .explainText{font-size:13px;line-height:1.4}
+#explanationScreen #missPlans .missHeading{margin-bottom:5px}

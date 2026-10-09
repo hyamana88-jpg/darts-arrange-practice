@@ -50,26 +50,15 @@
 <div class="screenActions resultNav" aria-label="回答後の画面">
 <button class="btn btnSoft" data-result-screen="result" onclick="showScreen('result')">結果</button>
 <button class="btn btnSoft" data-result-screen="explanation" onclick="showScreen('explanation')">解説</button>
-<button class="btn btnSoft" data-result-screen="miss" onclick="showScreen('miss')">外した場合</button>
 <button class="btn btnPrimary" onclick="nextQuestion()">次の問題</button>
 </div>
 </section>
-<section id="explanationScreen" class="appScreen" aria-label="解説" hidden>
-<h2 id="explainTitle"></h2><div id="explainText" class="explainText"></div><ul id="tipList" class="tipList"></ul>
+<section id="explanationScreen" class="appScreen" aria-label="組み立てと外した場合" hidden>
+<h2 id="explainTitle"></h2><div id="explainText" class="explainText"></div>
+<div id="missPlans" class="detail"></div>
 <div class="screenActions resultNav" aria-label="回答後の画面">
 <button class="btn btnSoft" data-result-screen="result" onclick="showScreen('result')">結果</button>
 <button class="btn btnSoft" data-result-screen="explanation" onclick="showScreen('explanation')">解説</button>
-<button class="btn btnSoft" data-result-screen="miss" onclick="showScreen('miss')">外した場合</button>
-<button class="btn btnPrimary" onclick="nextQuestion()">次の問題</button>
-</div>
-</section>
-<section id="missScreen" class="appScreen" aria-label="外した場合のアレンジ" hidden>
-<h2>外した場合</h2><div id="missPlans" class="detail"></div>
-
-<div class="screenActions resultNav" aria-label="回答後の画面">
-<button class="btn btnSoft" data-result-screen="result" onclick="showScreen('result')">結果</button>
-<button class="btn btnSoft" data-result-screen="explanation" onclick="showScreen('explanation')">解説</button>
-<button class="btn btnSoft" data-result-screen="miss" onclick="showScreen('miss')">外した場合</button>
 <button class="btn btnPrimary" onclick="nextQuestion()">次の問題</button>
 </div>
 </section>
