@@ -121,10 +121,9 @@ const SETTINGS_KEY = 'darts_settings_v1';
 let progress = readProgress();
 let resultReceipt = null;
 let answerShown = false;
-let selectedPrefix = 'S';
 let targetPractice = false;
 let activeScreen = 'practice';
-let missIndex = 0;
+let mistakesPage = 0;
 let sequenceKey = '';
 let sequenceScore = null;
 let savedPage = 0;
@@ -292,14 +291,16 @@ function updateScores(){
 function updateAll(){
   updateModeChips();
   document.getElementById('quickMode').value = currentMode();
-  document.getElementById('activeModeLabel').textContent = {fat_single:'SO',fat_master:'MO',sep_double:'DO'}[currentMode()];
+  document.getElementById('activeModeLabel').textContent = {fat_single:'シングルアウト',fat_master:'マスターアウト',sep_double:'ダブルアウト'}[currentMode()];
   updateScores();
   updateThrows();
   updateRoutes();
   updateExplanation();
   updateStats();
   const locked = !!resultReceipt || Core.outcome(startScore, throws, currentMode()).done;
-  document.querySelectorAll('.dartBtn').forEach(b => { b.disabled = locked || (b.textContent === 'SB' && currentMode() !== 'sep_double'); });
+  document.querySelectorAll('.dartBtn').forEach(b => { b.disabled = locked; });
+  Dartboard.update(document.getElementById('dartboardHost'), currentMode(), locked, throws.at(-1));
+  document.getElementById('boardHint').textContent = throws.length ? Dartboard.label(throws.at(-1)) : '狙う場所をタップ';
   document.getElementById('submitAnswer').disabled = !!resultReceipt || !throws.length;
   document.getElementById('impossibleAnswer').disabled = !!resultReceipt;
   updateMissPlans();
@@ -329,6 +330,8 @@ function beginQuestion(score){
   resultReceipt = null;
   answerShown = false;
   startScore = score;
+  document.querySelectorAll('.selectedHit').forEach(el=>el.classList.remove('selectedHit'));
+  document.getElementById('boardHint').textContent = '狙う場所をタップ';
   currentScore = score;
   throws = [];
   history = [];
@@ -414,6 +417,7 @@ function addThrow(token){
   if(resultReceipt || throws.length >= 3 || !isValidToken(token) || Core.outcome(startScore, throws, currentMode()).done) return;
   history.push({prevScore: currentScore});
   throws.push(token);
+  document.getElementById('boardHint').textContent = Dartboard.label(token);
   currentScore = Core.outcome(startScore, throws, currentMode()).remaining;
   setStatus('info','未回答', '入力を確認して「回答する」を押してください。');
   updateAll(); showStandardAnswer();
@@ -482,22 +486,7 @@ function updateSavedList(){
 function changeSaved(delta){savedPage += delta; updateSavedList();}
 
 function buildButtons(){
-  const grid = document.getElementById('numberGrid');
-  for(let number=1;number<=20;number++){
-    const button = document.createElement('button');
-    button.className = 'dartBtn single';
-    button.textContent = number;
-    button.dataset.number = number;
-    button.onclick = () => addThrow(selectedPrefix + number);
-    grid.appendChild(button);
-  }
-  for(const token of ['BULL','SB','MISS']){
-    const button = document.createElement('button');
-    button.className = 'dartBtn ' + (token === 'MISS' ? 'miss' : 'bull');
-    button.textContent = token;
-    button.onclick = () => addThrow(token);
-    document.getElementById('bullGrid').appendChild(button);
-  }
+  Dartboard.mount(document.getElementById('dartboardHost'), token => addThrow(token));
 }
 
 function readStorage(key, fallback){
@@ -541,8 +530,28 @@ function updateStats(){
   document.getElementById('accuracy').textContent = attempts ? `${Math.round(correct / attempts * 100)}%` : '—';
   document.getElementById('statsCount').textContent = `${correct}正解 / ${attempts}回答`;
   const weak = entries.filter(([,s])=>s.review).map(([score])=>Number(score)).sort((a,b)=>a-b);
-  document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.slice(0,16).join('、')}点${weak.length>16 ? ` ほか${weak.length-16}件` : ''}` : '復習待ちはありません';
+  updateMistakes(entries);
+  document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.length}点数` : '復習待ちはありません';
 }
+function updateMistakes(entries){
+  const failed = entries.filter(([,item])=>item.attempts>item.correct).sort((a,b)=>Number(a[0])-Number(b[0]));
+  const total = Math.max(1,Math.ceil(failed.length/9));
+  mistakesPage = Math.max(0,Math.min(total-1,mistakesPage));
+  const area=document.getElementById('mistakeScores');area.textContent='';
+  for(const [score,item] of failed.slice(mistakesPage*9,mistakesPage*9+9)){
+    const button=document.createElement('button');button.className='btn btnSoft';
+    button.textContent=`${score}点 (${item.attempts-item.correct}回)`;
+    button.classList.toggle('reviewPending',item.review);
+    button.title=item.review ? '復習待ち' : '復習済み';
+    button.setAttribute('aria-label',`${score}点を再練習、間違い${item.attempts-item.correct}回`);
+    button.onclick=()=>startTargetPractice(Number(score));area.appendChild(button);
+  }
+  if(!failed.length) area.textContent='まだ間違えた点数はありません。';
+  document.getElementById('mistakesPosition').textContent=`${mistakesPage+1} / ${total}`;
+  document.getElementById('previousMistakes').disabled=mistakesPage===0;
+  document.getElementById('nextMistakes').disabled=mistakesPage===total-1;
+}
+function changeMistakes(delta){mistakesPage+=delta;updateStats();}
 function saveSettings(){
   writeStorage(SETTINGS_KEY, { mode: currentMode(), min: Number(document.getElementById('rangeMin').value), max: Number(document.getElementById('rangeMax').value), review: document.getElementById('reviewPriority').checked, order: document.getElementById('questionOrder').value });
 }
@@ -559,22 +568,25 @@ function restoreSettings(){
 }
 function updateMissPlans(){
   const area = document.getElementById('missPlans');
+  area.textContent = '';
   if(!answerShown){ area.textContent = '回答後に表示します。'; return; }
   const route = standardRoutes(startScore)[0];
-  if(!route){ area.textContent = '3本以内の上がり目はありません。次のラウンドに上がりやすい点数を残しましょう。'; renderMiss(); return; }
-  area.textContent = '';
+  if(!route){ area.textContent = '3本以内の上がり目はありません。次のラウンドの上がり目を作りましょう。'; return; }
   const heading = document.createElement('p');
-  heading.textContent = `最初の${route[0]}を外した例（残り2本）。`;
+  heading.className = 'missHeading';
+  heading.textContent = `最初の${route[0]}を外した例（残り2本）`;
   area.appendChild(heading);
+  const grid = document.createElement('div');grid.className='missGrid';area.appendChild(grid);
   for(const plan of Core.missPlans(startScore, route, currentMode())){
-    const item = document.createElement('p');
-    const result = plan.done ? (plan.correct ? 'そのまま上がり' : plan.reason === 'finish-rule' ? 'アウト条件違反。このラウンド開始時の点数に戻ります。' : 'バースト。このラウンド開始時の点数に戻ります。') : plan.route ? `残り${plan.remaining}点 → ${plan.route.join(' → ')}` : `残り${plan.remaining}点。残り2本では上がれません。${plan.nextTurn ? `次のラウンドなら ${plan.nextTurn.join(' → ')}` : '次の上がり目を作る必要があります。'}`;
-    item.textContent = `${plan.actual === 'MISS' ? '得点なし' : plan.actual + 'に入った場合'}: ${result}`;
-    item.className = 'missItem';
-    area.appendChild(item);
+    const item = document.createElement('div');item.className='missItem';
+    const title = document.createElement('strong');
+    title.textContent = `${plan.actual==='MISS' ? '得点なし' : plan.actual+'に入る'} → ${plan.done ? '' : '残り'+plan.remaining+'点'}`;
+    const detail = document.createElement('p');
+    detail.textContent = plan.done ? (plan.correct ? 'そのまま上がり' : plan.reason==='finish-rule' ? 'アウト条件違反。開始点数へ戻る。' : 'バースト。開始点数へ戻る。') : plan.route ? plan.route.join(' → ') : '残り2本では上がれません。';
+    item.append(title,detail);
+    if(plan.nextTurn){const next=document.createElement('p');next.className='nextTurn';next.textContent='次ラウンド: '+plan.nextTurn.join(' → ');item.appendChild(next);}
+    grid.appendChild(item);
   }
-  missIndex = 0;
-  renderMiss();
 }
 document.querySelectorAll('input[name="mode"]').forEach(el=>{
   el.addEventListener('change', ()=>{
@@ -597,20 +609,12 @@ document.getElementById('rangePreset').addEventListener('change', e=>{
   newGame();
 });
 document.getElementById('reviewPriority').addEventListener('change', saveSettings);
-document.querySelectorAll('[data-prefix]').forEach(button => {
-  button.addEventListener('click', () => {
-    selectedPrefix = button.dataset.prefix;
-    document.querySelectorAll('[data-prefix]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-    const kind = {S:'single',D:'double',T:'triple'}[selectedPrefix];
-    document.querySelectorAll('#numberGrid button').forEach(b => { b.className = 'dartBtn ' + kind; });
-    document.getElementById('inputKind').textContent = button.textContent + 'を入力';
-  });
-});
 function showScreen(name){
   if(name === 'practice' && resultReceipt) name = 'result';
   if(['result','explanation','miss'].includes(name) && !resultReceipt) name = 'practice';
   activeScreen = name;
   document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
+  document.querySelectorAll('[data-result-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultScreen===name)));
   document.querySelectorAll('[data-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.screen===name)));
 }
 function nextQuestion(){
@@ -625,18 +629,6 @@ function updateOrderControls(){
 }
 document.getElementById('quickMode').addEventListener('change',event=>{const radio=document.querySelector(`input[name="mode"][value="${event.target.value}"]`);radio.checked=true;radio.dispatchEvent(new Event('change'));});
 document.getElementById('questionOrder').addEventListener('change',()=>{sequenceKey='';sequenceScore=null;updateOrderControls();saveSettings();});
-function renderMiss(){
-  const items = document.querySelectorAll('.missItem');
-  items.forEach((item,index)=>{item.hidden=index!==missIndex;});
-  document.getElementById('missPosition').textContent = items.length ? `${missIndex+1} / ${items.length}` : '';
-  document.getElementById('previousMiss').disabled = missIndex===0;
-  document.getElementById('nextMiss').disabled = missIndex>=items.length-1;
-}
-function changeMiss(delta){
-  const count = document.querySelectorAll('.missItem').length;
-  missIndex = Math.max(0, Math.min(count-1,missIndex+delta));
-  renderMiss();
-}
 async function boot(){
   restoreSettings(); buildButtons(); updateSavedList();
   await loadCheckoutData();

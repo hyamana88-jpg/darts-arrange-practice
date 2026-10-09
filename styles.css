@@ -308,3 +308,33 @@ body{background:#eef2ff}
 .routeEditor .throws{flex:1;min-width:0}
 .routeEditor .editControls{flex:none;flex-wrap:nowrap}
 .routeEditor .editControls .btn{padding:8px 6px;font-size:12px}
+.dartboardHost{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.dartboardHost svg{display:block;height:100%;width:100%;max-height:100%;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.boardHit{cursor:pointer}
+.boardHit:focus-visible,.boardHit.selectedHit{stroke:#facc15;stroke-width:3;outline:none}
+.boardHit[aria-disabled="true"]{cursor:default;opacity:.8}
+.boardTools{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:44px}
+#boardHint{font-size:13px;color:var(--muted)}
+.boardTools .btn{padding:8px 18px}
+#activeModeLabel{font-size:14px}
+.resultNav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;flex:none}
+.resultNav .btn{padding:8px 2px;font-size:12px;min-height:44px}
+.resultNav [aria-pressed="true"]{background:#312e81;color:#fff}
+.correctAnswer{align-self:flex-start;padding:8px 12px;min-height:44px}
+.mistakeTitle{font-size:16px;margin:4px 0}
+.mistakeScores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.mistakeScores .btn{font-size:12px;padding:8px 2px}
+.mistakePages{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.mistakePages .btn{font-size:12px;padding:8px}
+#missPlans{font-size:13px;line-height:1.5;min-height:0}
+#missPlans .missHeading{padding:0;margin:0 0 8px}
+.missGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.missItem{padding:10px;border:1px solid var(--border);border-radius:12px;background:#f8fafc}
+#missPlans .missItem p{padding:0;border:0;margin:6px 0 0}
+.nextTurn{color:var(--muted);font-size:12px}
+@media(max-height:650px){.missItem{padding:6px}.missGrid{gap:5px}#missPlans{font-size:12px}.nextTurn{font-size:11px}}
+#resultScreen .resultBox{margin-top:0;padding:8px 10px}
+#resultScreen h1,#resultScreen h2{margin:0}
+#resultScreen .detail{font-size:13px;line-height:1.5}
+.boardTools .dartBtn{width:auto;flex:none}
+.mistakeScores .reviewPending{box-shadow:inset 0 0 0 2px #c4b5fd}
