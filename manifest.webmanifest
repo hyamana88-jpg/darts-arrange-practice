@@ -1,0 +1,11 @@
+{
+  "name": "ダーツ アレンジ練習",
+  "short_name": "Darts Trainer",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#111827",
+  "description": "ダーツの上がり目・アレンジをiPhone/PCで練習するPWA"
+}

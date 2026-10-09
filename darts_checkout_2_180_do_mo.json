@@ -1,0 +1,3404 @@
+[
+  {
+    "score": 2,
+    "doubleOut": {
+      "route": [
+        "D1"
+      ],
+      "routeText": "D1",
+      "note": "D1で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D1"
+      ],
+      "routeText": "D1",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 3,
+    "doubleOut": {
+      "route": [
+        "S1",
+        "D1"
+      ],
+      "routeText": "S1 → D1",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T1"
+      ],
+      "routeText": "T1",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 4,
+    "doubleOut": {
+      "route": [
+        "D2"
+      ],
+      "routeText": "D2",
+      "note": "D2で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D2"
+      ],
+      "routeText": "D2",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 5,
+    "doubleOut": {
+      "route": [
+        "S1",
+        "D2"
+      ],
+      "routeText": "S1 → D2",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S1",
+        "D2"
+      ],
+      "routeText": "S1 → D2",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 6,
+    "doubleOut": {
+      "route": [
+        "D3"
+      ],
+      "routeText": "D3",
+      "note": "D3で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D3"
+      ],
+      "routeText": "D3",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 7,
+    "doubleOut": {
+      "route": [
+        "S3",
+        "D2"
+      ],
+      "routeText": "S3 → D2",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "D2"
+      ],
+      "routeText": "S3 → D2",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 8,
+    "doubleOut": {
+      "route": [
+        "D4"
+      ],
+      "routeText": "D4",
+      "note": "D4で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D4"
+      ],
+      "routeText": "D4",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 9,
+    "doubleOut": {
+      "route": [
+        "D1",
+        "D4"
+      ],
+      "routeText": "D1 → D4",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T3"
+      ],
+      "routeText": "T3",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 10,
+    "doubleOut": {
+      "route": [
+        "D5"
+      ],
+      "routeText": "D5",
+      "note": "D5で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D5"
+      ],
+      "routeText": "D5",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 11,
+    "doubleOut": {
+      "route": [
+        "S3",
+        "D4"
+      ],
+      "routeText": "S3 → D4",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "D4"
+      ],
+      "routeText": "S3 → D4",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 12,
+    "doubleOut": {
+      "route": [
+        "D6"
+      ],
+      "routeText": "D6",
+      "note": "D6で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D6"
+      ],
+      "routeText": "D6",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 13,
+    "doubleOut": {
+      "route": [
+        "S5",
+        "D4"
+      ],
+      "routeText": "S5 → D4",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S5",
+        "D4"
+      ],
+      "routeText": "S5 → D4",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 14,
+    "doubleOut": {
+      "route": [
+        "D7"
+      ],
+      "routeText": "D7",
+      "note": "D7で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D7"
+      ],
+      "routeText": "D7",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 15,
+    "doubleOut": {
+      "route": [
+        "S7",
+        "D4"
+      ],
+      "routeText": "S7 → D4",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T5"
+      ],
+      "routeText": "T5",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 16,
+    "doubleOut": {
+      "route": [
+        "D8"
+      ],
+      "routeText": "D8",
+      "note": "D8で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D8"
+      ],
+      "routeText": "D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 17,
+    "doubleOut": {
+      "route": [
+        "S1",
+        "D8"
+      ],
+      "routeText": "S1 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S1",
+        "D8"
+      ],
+      "routeText": "S1 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 18,
+    "doubleOut": {
+      "route": [
+        "D9"
+      ],
+      "routeText": "D9",
+      "note": "D9で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D9"
+      ],
+      "routeText": "D9",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 19,
+    "doubleOut": {
+      "route": [
+        "S3",
+        "D8"
+      ],
+      "routeText": "S3 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "D8"
+      ],
+      "routeText": "S3 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 20,
+    "doubleOut": {
+      "route": [
+        "D10"
+      ],
+      "routeText": "D10",
+      "note": "D10で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D10"
+      ],
+      "routeText": "D10",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 21,
+    "doubleOut": {
+      "route": [
+        "S5",
+        "D8"
+      ],
+      "routeText": "S5 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T7"
+      ],
+      "routeText": "T7",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 22,
+    "doubleOut": {
+      "route": [
+        "D11"
+      ],
+      "routeText": "D11",
+      "note": "D11で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D11"
+      ],
+      "routeText": "D11",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 23,
+    "doubleOut": {
+      "route": [
+        "S7",
+        "D8"
+      ],
+      "routeText": "S7 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S7",
+        "D8"
+      ],
+      "routeText": "S7 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 24,
+    "doubleOut": {
+      "route": [
+        "D12"
+      ],
+      "routeText": "D12",
+      "note": "D12で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D12"
+      ],
+      "routeText": "D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 25,
+    "doubleOut": {
+      "route": [
+        "D9",
+        "D8"
+      ],
+      "routeText": "D9 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S17",
+        "D4"
+      ],
+      "routeText": "S17 → D4",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 26,
+    "doubleOut": {
+      "route": [
+        "D13"
+      ],
+      "routeText": "D13",
+      "note": "D13で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D13"
+      ],
+      "routeText": "D13",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 27,
+    "doubleOut": {
+      "route": [
+        "S19",
+        "D4"
+      ],
+      "routeText": "S19 → D4",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T9"
+      ],
+      "routeText": "T9",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 28,
+    "doubleOut": {
+      "route": [
+        "D14"
+      ],
+      "routeText": "D14",
+      "note": "D14で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D14"
+      ],
+      "routeText": "D14",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 29,
+    "doubleOut": {
+      "route": [
+        "S13",
+        "D8"
+      ],
+      "routeText": "S13 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S13",
+        "D8"
+      ],
+      "routeText": "S13 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 30,
+    "doubleOut": {
+      "route": [
+        "D15"
+      ],
+      "routeText": "D15",
+      "note": "D15で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D15"
+      ],
+      "routeText": "D15",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 31,
+    "doubleOut": {
+      "route": [
+        "S7",
+        "D12"
+      ],
+      "routeText": "S7 → D12",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S15",
+        "D8"
+      ],
+      "routeText": "S15 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 32,
+    "doubleOut": {
+      "route": [
+        "D16"
+      ],
+      "routeText": "D16",
+      "note": "D16で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D16"
+      ],
+      "routeText": "D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 33,
+    "doubleOut": {
+      "route": [
+        "S17",
+        "D8"
+      ],
+      "routeText": "S17 → D8",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S1",
+        "D16"
+      ],
+      "routeText": "S1 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 34,
+    "doubleOut": {
+      "route": [
+        "D17"
+      ],
+      "routeText": "D17",
+      "note": "D17で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D17"
+      ],
+      "routeText": "D17",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 35,
+    "doubleOut": {
+      "route": [
+        "S3",
+        "D16"
+      ],
+      "routeText": "S3 → D16",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "D16"
+      ],
+      "routeText": "S3 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 36,
+    "doubleOut": {
+      "route": [
+        "D18"
+      ],
+      "routeText": "D18",
+      "note": "D18で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D18"
+      ],
+      "routeText": "D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 37,
+    "doubleOut": {
+      "route": [
+        "S5",
+        "D16"
+      ],
+      "routeText": "S5 → D16",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S5",
+        "D16"
+      ],
+      "routeText": "S5 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 38,
+    "doubleOut": {
+      "route": [
+        "D19"
+      ],
+      "routeText": "D19",
+      "note": "D19で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D19"
+      ],
+      "routeText": "D19",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 39,
+    "doubleOut": {
+      "route": [
+        "S7",
+        "D16"
+      ],
+      "routeText": "S7 → D16",
+      "note": "1本で偶数化"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S7",
+        "D16"
+      ],
+      "routeText": "S7 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 40,
+    "doubleOut": {
+      "route": [
+        "D20"
+      ],
+      "routeText": "D20",
+      "note": "D20で直接"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D20"
+      ],
+      "routeText": "D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 41,
+    "doubleOut": {
+      "route": [
+        "S17",
+        "D12"
+      ],
+      "routeText": "S17 → D12",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S17",
+        "D12"
+      ],
+      "routeText": "S17 → D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 42,
+    "doubleOut": {
+      "route": [
+        "S10",
+        "D16"
+      ],
+      "routeText": "S10 → D16",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S10",
+        "D16"
+      ],
+      "routeText": "S10 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 43,
+    "doubleOut": {
+      "route": [
+        "S3",
+        "D20"
+      ],
+      "routeText": "S3 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "D20"
+      ],
+      "routeText": "S3 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 44,
+    "doubleOut": {
+      "route": [
+        "S4",
+        "D20"
+      ],
+      "routeText": "S4 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S4",
+        "D20"
+      ],
+      "routeText": "S4 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 45,
+    "doubleOut": {
+      "route": [
+        "S13",
+        "D16"
+      ],
+      "routeText": "S13 → D16",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S13",
+        "D16"
+      ],
+      "routeText": "S13 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 46,
+    "doubleOut": {
+      "route": [
+        "S6",
+        "D20"
+      ],
+      "routeText": "S6 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S6",
+        "D20"
+      ],
+      "routeText": "S6 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 47,
+    "doubleOut": {
+      "route": [
+        "S7",
+        "D20"
+      ],
+      "routeText": "S7 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S7",
+        "D20"
+      ],
+      "routeText": "S7 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 48,
+    "doubleOut": {
+      "route": [
+        "S16",
+        "D16"
+      ],
+      "routeText": "S16 → D16",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T16"
+      ],
+      "routeText": "T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 49,
+    "doubleOut": {
+      "route": [
+        "S9",
+        "D20"
+      ],
+      "routeText": "S9 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S17",
+        "D16"
+      ],
+      "routeText": "S17 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 50,
+    "doubleOut": {
+      "route": [
+        "S18",
+        "D16"
+      ],
+      "routeText": "S18 → D16",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B"
+      ],
+      "routeText": "B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 51,
+    "doubleOut": {
+      "route": [
+        "S11",
+        "D20"
+      ],
+      "routeText": "S11 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17"
+      ],
+      "routeText": "T17",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 52,
+    "doubleOut": {
+      "route": [
+        "S12",
+        "D20"
+      ],
+      "routeText": "S12 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S2",
+        "B"
+      ],
+      "routeText": "S2 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 53,
+    "doubleOut": {
+      "route": [
+        "S13",
+        "D20"
+      ],
+      "routeText": "S13 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S3",
+        "B"
+      ],
+      "routeText": "S3 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 54,
+    "doubleOut": {
+      "route": [
+        "S14",
+        "D20"
+      ],
+      "routeText": "S14 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T18"
+      ],
+      "routeText": "T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 55,
+    "doubleOut": {
+      "route": [
+        "S15",
+        "D20"
+      ],
+      "routeText": "S15 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S5",
+        "B"
+      ],
+      "routeText": "S5 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 56,
+    "doubleOut": {
+      "route": [
+        "S16",
+        "D20"
+      ],
+      "routeText": "S16 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S6",
+        "B"
+      ],
+      "routeText": "S6 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 57,
+    "doubleOut": {
+      "route": [
+        "S17",
+        "D20"
+      ],
+      "routeText": "S17 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19"
+      ],
+      "routeText": "T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 58,
+    "doubleOut": {
+      "route": [
+        "S18",
+        "D20"
+      ],
+      "routeText": "S18 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S8",
+        "B"
+      ],
+      "routeText": "S8 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 59,
+    "doubleOut": {
+      "route": [
+        "S19",
+        "D20"
+      ],
+      "routeText": "S19 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S9",
+        "B"
+      ],
+      "routeText": "S9 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 60,
+    "doubleOut": {
+      "route": [
+        "S20",
+        "D20"
+      ],
+      "routeText": "S20 → D20",
+      "note": "1本で得意ダブルへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20"
+      ],
+      "routeText": "T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 61,
+    "doubleOut": {
+      "route": [
+        "SB",
+        "D18"
+      ],
+      "routeText": "SB → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S11",
+        "B"
+      ],
+      "routeText": "S11 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 62,
+    "doubleOut": {
+      "route": [
+        "T10",
+        "D16"
+      ],
+      "routeText": "T10 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S12",
+        "B"
+      ],
+      "routeText": "S12 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 63,
+    "doubleOut": {
+      "route": [
+        "T13",
+        "D12"
+      ],
+      "routeText": "T13 → D12",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S13",
+        "B"
+      ],
+      "routeText": "S13 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 64,
+    "doubleOut": {
+      "route": [
+        "T16",
+        "D8"
+      ],
+      "routeText": "T16 → D8",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S14",
+        "B"
+      ],
+      "routeText": "S14 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 65,
+    "doubleOut": {
+      "route": [
+        "SB",
+        "D20"
+      ],
+      "routeText": "SB → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S15",
+        "B"
+      ],
+      "routeText": "S15 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 66,
+    "doubleOut": {
+      "route": [
+        "T10",
+        "D18"
+      ],
+      "routeText": "T10 → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S16",
+        "B"
+      ],
+      "routeText": "S16 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 67,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D8"
+      ],
+      "routeText": "T17 → D8",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S17",
+        "B"
+      ],
+      "routeText": "S17 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 68,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D4"
+      ],
+      "routeText": "T20 → D4",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S18",
+        "B"
+      ],
+      "routeText": "S18 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 69,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D6"
+      ],
+      "routeText": "T19 → D6",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S19",
+        "B"
+      ],
+      "routeText": "S19 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 70,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "D8"
+      ],
+      "routeText": "T18 → D8",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "S20",
+        "B"
+      ],
+      "routeText": "S20 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 71,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D10"
+      ],
+      "routeText": "T17 → D10",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "D10"
+      ],
+      "routeText": "T17 → D10",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 72,
+    "doubleOut": {
+      "route": [
+        "T12",
+        "D18"
+      ],
+      "routeText": "T12 → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T12",
+        "D18"
+      ],
+      "routeText": "T12 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 73,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D8"
+      ],
+      "routeText": "T19 → D8",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D8"
+      ],
+      "routeText": "T19 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 74,
+    "doubleOut": {
+      "route": [
+        "T14",
+        "D16"
+      ],
+      "routeText": "T14 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D12"
+      ],
+      "routeText": "B → D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 75,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D12"
+      ],
+      "routeText": "T17 → D12",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T15",
+        "D15"
+      ],
+      "routeText": "T15 → D15",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 76,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D8"
+      ],
+      "routeText": "T20 → D8",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D13"
+      ],
+      "routeText": "B → D13",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 77,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D10"
+      ],
+      "routeText": "T19 → D10",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T9",
+        "B"
+      ],
+      "routeText": "T9 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 78,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "D12"
+      ],
+      "routeText": "T18 → D12",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D14"
+      ],
+      "routeText": "B → D14",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 79,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D11"
+      ],
+      "routeText": "T19 → D11",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D11"
+      ],
+      "routeText": "T19 → D11",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 80,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D10"
+      ],
+      "routeText": "T20 → D10",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D15"
+      ],
+      "routeText": "B → D15",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 81,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D12"
+      ],
+      "routeText": "T19 → D12",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D12"
+      ],
+      "routeText": "T19 → D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 82,
+    "doubleOut": {
+      "route": [
+        "DB",
+        "D16"
+      ],
+      "routeText": "DB → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D16"
+      ],
+      "routeText": "B → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 83,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D16"
+      ],
+      "routeText": "T17 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "D16"
+      ],
+      "routeText": "T17 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 84,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D12"
+      ],
+      "routeText": "T20 → D12",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D17"
+      ],
+      "routeText": "B → D17",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 85,
+    "doubleOut": {
+      "route": [
+        "T15",
+        "D20"
+      ],
+      "routeText": "T15 → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T15",
+        "D20"
+      ],
+      "routeText": "T15 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 86,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "D16"
+      ],
+      "routeText": "T18 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D18"
+      ],
+      "routeText": "B → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 87,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D18"
+      ],
+      "routeText": "T17 → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "D16"
+      ],
+      "routeText": "T17 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 88,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D14"
+      ],
+      "routeText": "T20 → D14",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D19"
+      ],
+      "routeText": "B → D19",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 89,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D16"
+      ],
+      "routeText": "T19 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D16"
+      ],
+      "routeText": "T19 → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 90,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D15"
+      ],
+      "routeText": "T20 → D15",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "D20"
+      ],
+      "routeText": "B → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 91,
+    "doubleOut": {
+      "route": [
+        "T17",
+        "D20"
+      ],
+      "routeText": "T17 → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "D20"
+      ],
+      "routeText": "T17 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 92,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D16"
+      ],
+      "routeText": "T20 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T14"
+      ],
+      "routeText": "B → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 93,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D18"
+      ],
+      "routeText": "T19 → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D18"
+      ],
+      "routeText": "T19 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 94,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "D20"
+      ],
+      "routeText": "T18 → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T18",
+        "D20"
+      ],
+      "routeText": "T18 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 95,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D19"
+      ],
+      "routeText": "T19 → D19",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T15"
+      ],
+      "routeText": "B → T15",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 96,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D18"
+      ],
+      "routeText": "T20 → D18",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T16",
+        "T16"
+      ],
+      "routeText": "T16 → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 97,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "D20"
+      ],
+      "routeText": "T19 → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "D20"
+      ],
+      "routeText": "T19 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 98,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D19"
+      ],
+      "routeText": "T20 → D19",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T16"
+      ],
+      "routeText": "B → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 99,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "S10",
+        "D16"
+      ],
+      "routeText": "T19 → S10 → D16",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "T16"
+      ],
+      "routeText": "T17 → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 100,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "D20"
+      ],
+      "routeText": "T20 → D20",
+      "note": "T1本+ダブル"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B"
+      ],
+      "routeText": "B → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 101,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S17",
+        "D12"
+      ],
+      "routeText": "T20 → S17 → D12",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T17"
+      ],
+      "routeText": "B → T17",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 102,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S10",
+        "D16"
+      ],
+      "routeText": "T20 → S10 → D16",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S2",
+        "B"
+      ],
+      "routeText": "B → S2 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 103,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S3",
+        "D20"
+      ],
+      "routeText": "T20 → S3 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S3",
+        "B"
+      ],
+      "routeText": "B → S3 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 104,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S4",
+        "D20"
+      ],
+      "routeText": "T20 → S4 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T18"
+      ],
+      "routeText": "B → T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 105,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S13",
+        "D16"
+      ],
+      "routeText": "T20 → S13 → D16",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S5",
+        "B"
+      ],
+      "routeText": "B → S5 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 106,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S6",
+        "D20"
+      ],
+      "routeText": "T20 → S6 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S6",
+        "B"
+      ],
+      "routeText": "B → S6 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 107,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S7",
+        "D20"
+      ],
+      "routeText": "T20 → S7 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19"
+      ],
+      "routeText": "B → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 108,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S16",
+        "D16"
+      ],
+      "routeText": "T20 → S16 → D16",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S8",
+        "B"
+      ],
+      "routeText": "B → S8 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 109,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S9",
+        "D20"
+      ],
+      "routeText": "T20 → S9 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S9",
+        "B"
+      ],
+      "routeText": "B → S9 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 110,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S18",
+        "D16"
+      ],
+      "routeText": "T20 → S18 → D16",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T20"
+      ],
+      "routeText": "B → T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 111,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S11",
+        "D20"
+      ],
+      "routeText": "T20 → S11 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S11",
+        "B"
+      ],
+      "routeText": "B → S11 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 112,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S12",
+        "D20"
+      ],
+      "routeText": "T20 → S12 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S12",
+        "B"
+      ],
+      "routeText": "B → S12 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 113,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S13",
+        "D20"
+      ],
+      "routeText": "T20 → S13 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S13",
+        "B"
+      ],
+      "routeText": "B → S13 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 114,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S14",
+        "D20"
+      ],
+      "routeText": "T20 → S14 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S14",
+        "B"
+      ],
+      "routeText": "B → S14 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 115,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S15",
+        "D20"
+      ],
+      "routeText": "T20 → S15 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S15",
+        "B"
+      ],
+      "routeText": "B → S15 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 116,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S16",
+        "D20"
+      ],
+      "routeText": "T20 → S16 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S16",
+        "B"
+      ],
+      "routeText": "B → S16 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 117,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S17",
+        "D20"
+      ],
+      "routeText": "T20 → S17 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S17",
+        "B"
+      ],
+      "routeText": "B → S17 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 118,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S18",
+        "D20"
+      ],
+      "routeText": "T20 → S18 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S18",
+        "B"
+      ],
+      "routeText": "B → S18 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 119,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "T12",
+        "D13"
+      ],
+      "routeText": "T19 → T12 → D13",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "S19",
+        "B"
+      ],
+      "routeText": "B → S19 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 120,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "S20",
+        "D20"
+      ],
+      "routeText": "T20 → S20 → D20",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20"
+      ],
+      "routeText": "T20 → T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 121,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T11",
+        "T14"
+      ],
+      "routeText": "T20 → T11 → T14",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T17",
+        "D10"
+      ],
+      "routeText": "B → T17 → D10",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 122,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "T18",
+        "D7"
+      ],
+      "routeText": "T18 → T18 → D7",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T12",
+        "D18"
+      ],
+      "routeText": "B → T12 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 123,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "T16",
+        "D9"
+      ],
+      "routeText": "T19 → T16 → D9",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "D8"
+      ],
+      "routeText": "B → T19 → D8",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 124,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T14",
+        "D11"
+      ],
+      "routeText": "T20 → T14 → D11",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D12"
+      ],
+      "routeText": "B → B → D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 125,
+    "doubleOut": {
+      "route": [
+        "DB",
+        "T17",
+        "D12"
+      ],
+      "routeText": "DB → T17 → D12",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T15",
+        "D15"
+      ],
+      "routeText": "B → T15 → D15",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 126,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "T19",
+        "D6"
+      ],
+      "routeText": "T19 → T19 → D6",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D13"
+      ],
+      "routeText": "B → B → D13",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 127,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D8"
+      ],
+      "routeText": "T20 → T17 → D8",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "S17",
+        "B"
+      ],
+      "routeText": "T20 → S17 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 128,
+    "doubleOut": {
+      "route": [
+        "T18",
+        "T14",
+        "D16"
+      ],
+      "routeText": "T18 → T14 → D16",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "D",
+        "D",
+        "D14"
+      ],
+      "routeText": "D → D → D14",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 129,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "T12",
+        "D18"
+      ],
+      "routeText": "T19 → T12 → D18",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "T12",
+        "D18"
+      ],
+      "routeText": "T19 → T12 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 130,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D5"
+      ],
+      "routeText": "T20 → T20 → D5",
+      "note": "1本で2ダーツ上がりへ"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D15"
+      ],
+      "routeText": "B → B → D15",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 131,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D10"
+      ],
+      "routeText": "T20 → T17 → D10",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "D12"
+      ],
+      "routeText": "B → T19 → D12",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 132,
+    "doubleOut": {
+      "route": [
+        "DB",
+        "T14",
+        "D20"
+      ],
+      "routeText": "DB → T14 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D16"
+      ],
+      "routeText": "B → B → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 133,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D16"
+      ],
+      "routeText": "T20 → T17 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T11"
+      ],
+      "routeText": "B → B → T11",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 134,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T14",
+        "D16"
+      ],
+      "routeText": "T20 → T14 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D17"
+      ],
+      "routeText": "B → B → D17",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 135,
+    "doubleOut": {
+      "route": [
+        "DB",
+        "T15",
+        "D20"
+      ],
+      "routeText": "DB → T15 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T15",
+        "D20"
+      ],
+      "routeText": "B → T15 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 136,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D8"
+      ],
+      "routeText": "T20 → T20 → D8",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D18"
+      ],
+      "routeText": "B → B → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 137,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D10"
+      ],
+      "routeText": "T20 → T19 → D10",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T17",
+        "D18"
+      ],
+      "routeText": "B → T17 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 138,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T18",
+        "D12"
+      ],
+      "routeText": "T20 → T18 → D12",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D19"
+      ],
+      "routeText": "B → B → D19",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 139,
+    "doubleOut": {
+      "route": [
+        "T19",
+        "T14",
+        "D16"
+      ],
+      "routeText": "T19 → T14 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "B",
+        "D16"
+      ],
+      "routeText": "T19 → B → D16",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 140,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D10"
+      ],
+      "routeText": "T20 → T20 → D10",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "D20"
+      ],
+      "routeText": "B → B → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 141,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D12"
+      ],
+      "routeText": "T20 → T19 → D12",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T17",
+        "D20"
+      ],
+      "routeText": "B → T17 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 142,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T14",
+        "D20"
+      ],
+      "routeText": "T20 → T14 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T14"
+      ],
+      "routeText": "B → B → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 143,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D16"
+      ],
+      "routeText": "T20 → T17 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "D18"
+      ],
+      "routeText": "B → T19 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 144,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D12"
+      ],
+      "routeText": "T20 → T20 → D12",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T18",
+        "D20"
+      ],
+      "routeText": "B → T18 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 145,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T15",
+        "D20"
+      ],
+      "routeText": "T20 → T15 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T15"
+      ],
+      "routeText": "B → B → T15",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 146,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T18",
+        "D16"
+      ],
+      "routeText": "T20 → T18 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T16",
+        "T16"
+      ],
+      "routeText": "B → T16 → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 147,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D18"
+      ],
+      "routeText": "T20 → T17 → D18",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "D20"
+      ],
+      "routeText": "B → T19 → D20",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 148,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D14"
+      ],
+      "routeText": "T20 → T20 → D14",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T16"
+      ],
+      "routeText": "B → B → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 149,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D16"
+      ],
+      "routeText": "T20 → T19 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T17",
+        "T16"
+      ],
+      "routeText": "B → T17 → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 150,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T18",
+        "D18"
+      ],
+      "routeText": "T20 → T18 → D18",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "B"
+      ],
+      "routeText": "B → B → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 151,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "D20"
+      ],
+      "routeText": "T20 → T17 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T17"
+      ],
+      "routeText": "B → B → T17",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 152,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D16"
+      ],
+      "routeText": "T20 → T20 → D16",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T20",
+        "T14"
+      ],
+      "routeText": "B → T20 → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 153,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D18"
+      ],
+      "routeText": "T20 → T19 → D18",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T17",
+        "T20",
+        "T14"
+      ],
+      "routeText": "T17 → T20 → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 154,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T18",
+        "D20"
+      ],
+      "routeText": "T20 → T18 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T18"
+      ],
+      "routeText": "B → B → T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 155,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D19"
+      ],
+      "routeText": "T20 → T19 → D19",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "T16"
+      ],
+      "routeText": "B → T19 → T16",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 156,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D18"
+      ],
+      "routeText": "T20 → T20 → D18",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20",
+        "D18"
+      ],
+      "routeText": "T20 → T20 → D18",
+      "note": "Double終点"
+    }
+  },
+  {
+    "score": 157,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "D20"
+      ],
+      "routeText": "T20 → T19 → D20",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T19"
+      ],
+      "routeText": "B → B → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 158,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D19"
+      ],
+      "routeText": "T20 → T20 → D19",
+      "note": "高チェックアウト"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T18",
+        "T18"
+      ],
+      "routeText": "B → T18 → T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 159,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T19",
+        "T20",
+        "T14"
+      ],
+      "routeText": "T19 → T20 → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 160,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "D20"
+      ],
+      "routeText": "T20 → T20 → D20",
+      "note": "上がり目"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "B",
+        "T20"
+      ],
+      "routeText": "B → B → T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 161,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T17",
+        "B"
+      ],
+      "routeText": "T20 → T17 → B",
+      "note": "上がり目"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "T18"
+      ],
+      "routeText": "B → T19 → T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 162,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20",
+        "T14"
+      ],
+      "routeText": "T20 → T20 → T14",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 163,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 164,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T18",
+        "B"
+      ],
+      "routeText": "T20 → T18 → B",
+      "note": "上がり目"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "T19"
+      ],
+      "routeText": "B → T19 → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 165,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T15",
+        "T20",
+        "T20"
+      ],
+      "routeText": "T15 → T20 → T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 166,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 167,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T19",
+        "B"
+      ],
+      "routeText": "T20 → T19 → B",
+      "note": "上がり目"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "B",
+        "T19",
+        "T20"
+      ],
+      "routeText": "B → T19 → T20",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 168,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T18",
+        "T19",
+        "T19"
+      ],
+      "routeText": "T18 → T19 → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 169,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "ボギー"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 170,
+    "doubleOut": {
+      "route": [
+        "T20",
+        "T20",
+        "B"
+      ],
+      "routeText": "T20 → T20 → B",
+      "note": "上がり目"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20",
+        "B"
+      ],
+      "routeText": "T20 → T20 → B",
+      "note": "Bull終点"
+    }
+  },
+  {
+    "score": 171,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T19",
+        "T18"
+      ],
+      "routeText": "T20 → T19 → T18",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 172,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 173,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 174,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T19",
+        "T19"
+      ],
+      "routeText": "T20 → T19 → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 175,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 176,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 177,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20",
+        "T19"
+      ],
+      "routeText": "T20 → T20 → T19",
+      "note": "Triple終点"
+    }
+  },
+  {
+    "score": 178,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 179,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    }
+  },
+  {
+    "score": 180,
+    "doubleOut": {
+      "route": [],
+      "routeText": "—",
+      "note": "3本上がり不可"
+    },
+    "masterOutFatBull": {
+      "route": [
+        "T20",
+        "T20",
+        "T20"
+      ],
+      "routeText": "T20 → T20 → T20",
+      "note": "Triple終点"
+    }
+  }
+]
