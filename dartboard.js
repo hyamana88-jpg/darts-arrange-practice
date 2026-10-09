@@ -28,7 +28,7 @@
     NUMBERS.forEach((number,index)=>{
       const start=index*18-9,end=start+18;
       const pale=index%2===1;
-      for(const [prefix,inner,outer,extra] of [['S',20,98,'（内側）'],['T',98,112,''],['S',112,156,'（外側）'],['D',156,174,'']]){
+      for(const [prefix,inner,outer,extra] of [['S',30,88,'（内側）'],['T',88,116,''],['S',116,144,'（外側）'],['D',144,174,'']]){
         const fill=prefix==='S' ? pale?'#f3e8d0':'#20252e' : pale?'#15803d':'#dc2626';
         hit(element('path',{d:sector(inner,outer,start,end),fill,stroke:'#b4bdc8','stroke-width':0.8}),prefix+number,extra);
       }
@@ -36,8 +36,8 @@
       const text=element('text',{x,y,'text-anchor':'middle','dominant-baseline':'central',fill:'#fff','font-size':16,'font-weight':700,'pointer-events':'none'});
       text.textContent=number;svg.appendChild(text);
     });
-    const outer=element('circle',{cx:200,cy:200,r:20,fill:'#15803d',stroke:'#b4bdc8','stroke-width':0.8});outer.dataset.outerBull='true';hit(outer,'SB');
-    hit(element('circle',{cx:200,cy:200,r:9,fill:'#dc2626',stroke:'#b4bdc8','stroke-width':0.8}),'BULL');
+    const outer=element('circle',{cx:200,cy:200,r:30,fill:'#15803d',stroke:'#b4bdc8','stroke-width':0.8});outer.dataset.outerBull='true';hit(outer,'SB');
+    hit(element('circle',{cx:200,cy:200,r:16,fill:'#dc2626',stroke:'#b4bdc8','stroke-width':0.8}),'BULL');
     host.appendChild(svg);
   }
   function update(host,mode,locked,lastToken){

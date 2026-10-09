@@ -64,14 +64,25 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.setViewportSize({width:390,height:844});
   await page.screenshot({path:'/tmp/darts-practice.png'});
   await range(40,40);await enter('D',20);
+  assert.equal(await page.locator('.selectedHit').getAttribute('data-token'),'D20');
+  assert.equal(await page.locator('.selectedHit').evaluate(el=>getComputedStyle(el).fill),'rgb(250, 204, 21)');
+  assert.equal(await page.locator('[data-outer-bull]').getAttribute('r'),'30');
+
   assert.equal(await page.locator('#statsCount').textContent(),'0正解 / 0回答');
   assert.equal(await page.locator('#standardAnswer').isVisible(),false);
   await submit();assert.ok(await screen('result'));await fits('result');
   await page.setViewportSize({width:320,height:568});await fits('result');await page.setViewportSize({width:390,height:844});
   assert.equal(await page.locator('#statsCount').textContent(),'1正解 / 1回答');
+  assert.equal(await page.locator('#resultText').textContent(),'正解');
+  assert.equal(await page.locator('#statusBadge').count(),0);
+  assert.ok(await page.locator('#resultText').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=40));
   assert.match(await page.locator('#submittedRoute').textContent(),/D20/);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
   assert.ok(await screen('practice'));assert.equal(await page.locator('#statsCount').textContent(),'0正解 / 0回答');
+  await enter('S',20);await enter('D',10);await submit();
+  assert.equal(await page.locator('#resultText').textContent(),'正解');
+  await page.getByRole('button',{name:'回答を直す',exact:true}).click();
+  await page.getByRole('button',{name:'クリア',exact:true}).click();
   for(let i=0;i<3;i++)await page.getByRole('button',{name:'MISS',exact:true}).click();
   await submit();assert.match(await page.locator('#reviewScores').textContent(),/1点数/);
   await next();assert.ok(await screen('practice'));await enter('D',20);await submit();
@@ -101,6 +112,8 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.getByRole('button',{name:'外した場合',exact:true}).click();await fits('miss');
   assert.deepEqual(await page.locator('#missScreen .resultNav button').allTextContents(),footer);
   assert.equal(await page.locator('.missItem:visible').count(),4);
+  const cards=await page.locator('.missItem:visible').evaluateAll(items=>items.map(el=>el.getBoundingClientRect().x));
+  assert.ok(cards.every(x=>Math.abs(x-cards[0])<1),'miss examples use one column');
   assert.match((await page.locator('.missItem:visible').allTextContents()).join(' '),/S20.*101点/);
   await page.setViewportSize({width:320,height:568});await fits('miss');await page.setViewportSize({width:390,height:844});
   await next();assert.equal(await page.locator('#startScore').textContent(),'122');

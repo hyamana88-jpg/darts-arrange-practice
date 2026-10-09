@@ -265,10 +265,7 @@ function updateRoutes(){
 }
 function setStatus(type,text,detail){
   lastStatus = {type,text,detail};
-  const badge = document.getElementById('statusBadge');
-  badge.className = 'badge ' + type;
-  badge.textContent = text;
-
+  document.querySelector('.resultBox').dataset.status = type;
   document.getElementById('resultText').textContent = text;
   document.getElementById('resultDetail').textContent = detail;
 }
@@ -431,8 +428,7 @@ function submitAnswer(impossible = false){
   recordResult(correct);
   answerShown = true;
   if(correct){
-    const exact = standardRoutes(startScore).some(r=>routeEquals(r, throws));
-    setStatus('ok', impossible ? '正解：3本では上がれません' : exact ? '標準正解' : 'ルール上は正解', '正解として保存しました。');
+    setStatus('ok', '正解', impossible ? 'この点数は3本以内では上がれません。' : '成績に記録しました。');
   }else{
     const detail = impossible ? 'この点数には3本以内の上がり目があります。' : result.reason === 'bust' ? 'バーストです。' : result.reason === 'finish-rule' ? '最後のアウト条件を満たしていません。' : '入力したルートでは上がりきれていません。';
     setStatus('bad','不正解',detail + ' 復習対象に保存しました。');
