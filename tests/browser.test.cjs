@@ -53,6 +53,8 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.deepEqual(await page.locator('#dartboardHost text').allTextContents(),['20','1','18','4','13','6','10','15','2','17','3','19','7','16','8','11','14','9','12','5']);
   assert.equal(await page.locator('#dartboardHost [data-token="D20"]').count(),1);
   assert.equal(await page.locator('#dartboardHost [data-token="T20"]').count(),1);
+  assert.match(await page.locator('[data-token="T20"]').getAttribute('d'),/A112,112.*A94,94/);
+  assert.match(await page.locator('[data-token="D20"]').getAttribute('d'),/A174,174.*A154,154/);
 
   assert.ok(await screen('practice')); await fits('practice');
   for(const size of [{width:375,height:667},{width:320,height:568},{width:390,height:664}]){
@@ -74,13 +76,17 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.setViewportSize({width:320,height:568});await fits('result');await page.setViewportSize({width:390,height:844});
   assert.equal(await page.locator('#statsCount').textContent(),'1正解 / 1回答');
   assert.equal(await page.locator('#resultText').textContent(),'正解');
+  assert.equal(await page.locator('#resultDetail').textContent(),'ナイスアレンジ！');
+  assert.equal(await page.locator('.celebration span').count(),24);
   assert.equal(await page.locator('#statusBadge').count(),0);
   assert.ok(await page.locator('#resultText').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=40));
   assert.match(await page.locator('#submittedRoute').textContent(),/D20/);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
+  assert.equal(await page.locator('.celebration').count(),0);
   assert.ok(await screen('practice'));assert.equal(await page.locator('#statsCount').textContent(),'0正解 / 0回答');
   await enter('S',20);await enter('D',10);await submit();
   assert.equal(await page.locator('#resultText').textContent(),'正解');
+  assert.equal(await page.locator('.celebration').count(),0);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
   await page.getByRole('button',{name:'クリア',exact:true}).click();
   for(let i=0;i<3;i++)await page.getByRole('button',{name:'MISS',exact:true}).click();

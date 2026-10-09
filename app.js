@@ -327,6 +327,21 @@ function addThrow(token){
   setStatus('info','未回答', '入力を確認して「回答する」を押してください。');
   updateAll(); showStandardAnswer();
 }
+function celebrateStandardAnswer(){
+  const screen = document.getElementById('resultScreen');
+  const celebration = document.createElement('div');
+  celebration.className = 'celebration';
+  celebration.setAttribute('aria-hidden','true');
+  for(let i=0;i<24;i++){
+    const piece=document.createElement('span');
+    piece.style.setProperty('--x',`${(i*37)%100}%`);
+    piece.style.setProperty('--delay',`${(i%6)*0.06}s`);
+    piece.style.setProperty('--color',['#facc15','#f472b6','#38bdf8','#a78bfa'][i%4]);
+    celebration.appendChild(piece);
+  }
+  screen.appendChild(celebration);
+  setTimeout(()=>celebration.remove(),1800);
+}
 function submitAnswer(impossible = false){
   if(resultReceipt) return;
   if(!impossible && !throws.length){ setStatus('warn','未入力','ルートを入力するか「3本で上がれない」を選んでください。'); return; }
@@ -345,6 +360,10 @@ function submitAnswer(impossible = false){
   document.getElementById('resultQuestion').textContent = `出題 ${startScore}点 / ${currentModeLabel()}`;
   document.getElementById('submittedRoute').textContent = impossible ? 'あなたの回答：3本で上がれない' : 'あなたの回答：' + throws.join(' → ');
   showScreen('result');
+  if(correct && !impossible && standardRoutes(startScore).some(route=>routeEquals(route,throws))){
+    document.getElementById('resultDetail').textContent = 'ナイスアレンジ！';
+    celebrateStandardAnswer();
+  }
 }
 
 function saveCustomRoute(){
@@ -516,6 +535,7 @@ document.getElementById('reviewPriority').addEventListener('change', saveSetting
 function showScreen(name){
   if(name === 'practice' && resultReceipt) name = 'result';
   if(['result','explanation','miss'].includes(name) && !resultReceipt) name = 'practice';
+  document.querySelectorAll('.celebration').forEach(el=>el.remove());
   activeScreen = name;
   document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
   document.querySelectorAll('[data-result-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultScreen===name)));

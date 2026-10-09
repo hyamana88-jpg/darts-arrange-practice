@@ -356,3 +356,9 @@ body{background:#eef2ff}
 #explanationScreen h2{font-size:18px}
 #explanationScreen .explainText{font-size:13px;line-height:1.4}
 #explanationScreen #missPlans .missHeading{margin-bottom:5px}
+
+#resultScreen{position:relative}
+.celebration{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:12px}
+.celebration span{position:absolute;left:var(--x);top:-15px;width:9px;height:14px;background:var(--color);animation:confettiFall 1.35s var(--delay) ease-in forwards}
+@keyframes confettiFall{from{transform:translateY(0) rotate(0);opacity:1}to{transform:translateY(520px) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.celebration{display:none}}

@@ -28,7 +28,7 @@
     NUMBERS.forEach((number,index)=>{
       const start=index*18-9,end=start+18;
       const pale=index%2===1;
-      for(const [prefix,inner,outer,extra] of [['S',30,88,'（内側）'],['T',88,116,''],['S',116,144,'（外側）'],['D',144,174,'']]){
+      for(const [prefix,inner,outer,extra] of [['S',30,94,'（内側）'],['T',94,112,''],['S',112,154,'（外側）'],['D',154,174,'']]){
         const fill=prefix==='S' ? pale?'#f3e8d0':'#20252e' : pale?'#15803d':'#dc2626';
         hit(element('path',{d:sector(inner,outer,start,end),fill,stroke:'#b4bdc8','stroke-width':0.8}),prefix+number,extra);
       }
