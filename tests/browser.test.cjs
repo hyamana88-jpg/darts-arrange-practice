@@ -21,6 +21,16 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   page.on('response',r=>{if(r.status()>=400 && !r.url().endsWith('/favicon.ico')) failed.push(r.url());});
   const ready=async()=>page.waitForFunction(()=>document.getElementById('currentScore').textContent!=='--');
   await page.goto(base); await ready();
+  const chooseTarget = async(score)=>{
+    await page.getByRole('button',{name:'点数を選ぶ',exact:true}).click();
+    const bands=[[2,40],[41,80],[81,120],[121,160],[161,180]];
+    const [min,max]=bands.find(([a,b])=>score>=a && score<=b);
+    await page.locator('#scoreBands').getByRole('button',{name:`${min}〜${max}`,exact:true}).click();
+    await page.locator('#scoreChoices').getByRole('button',{name:String(score),exact:true}).click();
+    assert.equal(await page.locator('#scorePicker').isVisible(),false);
+  };
+  assert.ok(!await page.locator('.hero').textContent().then(t=>t.includes('Safari')));
+
   assert.equal(await page.evaluate(()=>checkoutByScore.size),179);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow');
   assert.equal(await page.locator('.dartBtn').count(),23);
@@ -102,7 +112,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.equal(await page.locator('#statsCount').textContent(),'2正解 / 3回答');
   // Offline launch in a new page using the same installed origin and stored state.
   await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
-  const cachePaths=await page.evaluate(async()=>{const names=await caches.keys();const cache=await caches.open(names.find(n=>n.endsWith('-v3')));return (await cache.keys()).map(r=>new URL(r.url).pathname);});
+  const cachePaths=await page.evaluate(async()=>{const names=await caches.keys();const cache=await caches.open(names.find(n=>n.endsWith('-v4')));return (await cache.keys()).map(r=>new URL(r.url).pathname);});
   assert.ok(cachePaths.some(p=>p.endsWith('/icons/icon-512.png')));
   await page.close();await context.setOffline(true);page=await context.newPage();
   page.on('pageerror',e=>errors.push(e.message));
@@ -116,24 +126,33 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.getByRole('button',{name:'BULL',exact:true}).click();
   await page.locator('#submitAnswer').click();
   assert.equal(await page.locator('#statsCount').textContent(),'3正解 / 4回答');
-  await page.locator('#targetScore').fill('169');
-  await page.getByRole('button',{name:'この点数で練習',exact:true}).click();
+  await chooseTarget(169);
   assert.equal(await page.locator('#startScore').textContent(),'169');
   assert.match(await page.locator('#standardAnswer').textContent(),/回答する/);
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();
   assert.match(await page.locator('#resultText').textContent(),/正解/);
   assert.match(await page.locator('#standardAnswer').textContent(),/上がれません/);
-  await page.locator('#targetScore').fill('121');
-  await page.getByRole('button',{name:'この点数で練習',exact:true}).click();
+  await chooseTarget(121);
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();
   assert.equal(await page.locator('#resultText').textContent(),'不正解');
   assert.match(await page.locator('#missPlans').textContent(),/S20.*101点/);
   await page.locator('input[value="fat_master"]').check();
   assert.equal(await page.locator('#startScore').textContent(),'121');
-  await page.locator('#targetScore').fill('181');
-  await page.getByRole('button',{name:'この点数で練習',exact:true}).click();
-  assert.equal(await page.locator('#startScore').textContent(),'121');
-  assert.match(await page.locator('#targetMessage').textContent(),/整数/);
+  await chooseTarget(2);
+  assert.equal(await page.locator('#startScore').textContent(),'2');
+  await chooseTarget(180);
+  assert.equal(await page.locator('#startScore').textContent(),'180');
+  await page.getByRole('button',{name:'トリプル',exact:true}).click();
+  await page.locator('#numberGrid').getByRole('button',{name:'20',exact:true}).click();
+  assert.equal(await page.locator('#inputStartScore').textContent(),'180');
+  assert.equal(await page.locator('#inputCurrentScore').textContent(),'120');
+  const box=await page.locator('.liveScore').boundingBox();
+  assert.ok(box.y>=0 && box.y+box.height<=844,'live score stays visible during input');
+  await page.getByRole('button',{name:'1投戻す',exact:true}).click();
+  assert.equal(await page.locator('#inputCurrentScore').textContent(),'180');
+  await page.getByRole('button',{name:'点数を選ぶ',exact:true}).click();
+  await page.getByRole('button',{name:'閉じる',exact:true}).click();
+  assert.equal(await page.locator('#startScore').textContent(),'180');
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
  }finally{
   if(browser)await browser.close();

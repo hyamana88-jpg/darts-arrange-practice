@@ -280,6 +280,9 @@ function updateThrows(){
 function updateScores(){
   document.getElementById('currentScore').textContent = currentScore;
   document.getElementById('startScore').textContent = startScore;
+  document.getElementById('inputStartScore').textContent = startScore;
+  document.getElementById('inputCurrentScore').textContent = currentScore;
+  document.getElementById('inputThrowCount').textContent = throws.length;
 }
 function updateAll(){
   updateModeChips();
@@ -321,8 +324,40 @@ function beginQuestion(score){
   setStatus('info','入力途中','ルートを入力して「回答する」で答え合わせします。');
   updateAll(); showStandardAnswer();
 }
-function startTargetPractice(){
-  const score = Number(document.getElementById('targetScore').value);
+const scoreBands = [[2,40],[41,80],[81,120],[121,160],[161,180]];
+function showScoreBand(index){
+  const [min,max] = scoreBands[index];
+  document.querySelectorAll('#scoreBands button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+  const choices = document.getElementById('scoreChoices');
+  choices.textContent = '';
+  for(let score=min;score<=max;score++){
+    const button = document.createElement('button');
+    button.className = 'btn btnSoft';
+    button.textContent = score;
+    button.onclick = ()=>{
+      startTargetPractice(score);
+      document.getElementById('scorePicker').close();
+      document.querySelector('.boardSection').scrollIntoView({block:'start'});
+    };
+    choices.appendChild(button);
+  }
+}
+function openScorePicker(){
+  const bands = document.getElementById('scoreBands');
+  if(!bands.children.length){
+    scoreBands.forEach(([min,max],index)=>{
+      const button = document.createElement('button');
+      button.className = 'btn btnSoft';
+      button.textContent = `${min}〜${max}`;
+      button.onclick = ()=>showScoreBand(index);
+      bands.appendChild(button);
+    });
+  }
+  const index = scoreBands.findIndex(([min,max])=>startScore>=min && startScore<=max);
+  showScoreBand(index<0 ? 0 : index);
+  document.getElementById('scorePicker').showModal();
+}
+function startTargetPractice(score){
   if(!Number.isInteger(score) || score < 2 || score > 180){
     document.getElementById('targetMessage').textContent = '2〜180の整数を指定してください。'; return;
   }
@@ -525,7 +560,7 @@ document.querySelectorAll('input[name="mode"]').forEach(el=>{
       document.getElementById('rangeMin').value = 2;
       document.getElementById('rangeMax').value = 170;
     }
-    if(targetPractice){ document.getElementById('targetScore').value = startScore; startTargetPractice(); } else newGame();
+    if(targetPractice){ startTargetPractice(startScore); } else newGame();
     updateSavedList();
   });
 });

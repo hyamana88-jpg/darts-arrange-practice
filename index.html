@@ -23,21 +23,22 @@
           </div>
 
 </div></section>
+  <div class="liveScore" aria-label="入力中の点数">
+    <div>出題 <strong id="inputStartScore">—</strong></div>
+    <div>残り <strong id="inputCurrentScore">—</strong></div>
+    <div>入力 <strong id="inputThrowCount">0</strong> / 3</div>
+  </div>
   <section class="hero">
     <h1>ダーツ アレンジ練習アプリ</h1>
     <p>残り点数から 3 本以内で上がる練習用です。標準候補と短い考え方を並べて表示し、<strong>標準正解</strong>と<strong>ルール上の正解</strong>を分けて判定します。</p>
-      <p class="installNote">iPhone: Safariの共有 →「ホーム画面に追加」。初回はオンラインで開いてください。</p>
-    <p id="offlineStatus" role="status">オフライン利用を準備中…</p>
+    <p id="offlineStatus" role="status" hidden>オフライン利用を準備中…</p>
   </section>
 
   <section class="card targetCard">
     <div class="cardHeader"><h2 class="cardTitle">指定点数を練習</h2></div>
     <div class="cardBody">
       <p class="detail">2〜180の好きな点数を指定できます。上がれない点数も学習できます。</p>
-      <div class="rangeRow">
-        <label>練習する点数<input id="targetScore" type="number" min="2" max="180" inputmode="numeric" value="121"></label>
-        <button class="btn btnPrimary" onclick="startTargetPractice()">この点数で練習</button>
-      </div>
+      <button class="btn btnPrimary" onclick="openScorePicker()">点数を選ぶ</button>
       <p id="targetMessage" class="detail" role="status"></p>
     </div>
   </section>
@@ -206,6 +207,15 @@
     </div>
   </div>
 </div>
+<dialog id="scorePicker" aria-labelledby="scorePickerTitle">
+  <div class="pickerHeader">
+    <h2 id="scorePickerTitle">練習する点数を選ぶ</h2>
+    <button class="btn btnSoft" onclick="document.getElementById('scorePicker').close()">閉じる</button>
+  </div>
+  <p class="detail">点数を押すと練習を開始します。上がれない点数も選べます。</p>
+  <div id="scoreBands" class="pickerBands" role="group" aria-label="点数の一覧範囲"></div>
+  <div id="scoreChoices" class="pickerChoices" role="group" aria-label="練習する点数"></div>
+</dialog>
 <script src="./practice-core.js" defer></script>
 <script src="./app.js" defer></script>
 </body>
