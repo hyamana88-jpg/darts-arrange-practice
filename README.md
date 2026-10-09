@@ -1,22 +1,50 @@
-# Darts Checkout Trainer PWA
+# ダーツ アレンジ練習 PWA
 
-前回の `darts_trainer_v7.html` をベースに、GitHub Pages / iPhone のホーム画面追加を想定したPWA構成に分割したスターターです。
+3本以内の上がり目を学習する、ビルド不要の静的Webアプリです。
 
-## ファイル
-- `index.html` UI
-- `styles.css` スタイル
-- `app.js` 判定・練習ロジック
-- `data/darts_checkout_2_180_do_mo.json` 2〜180のDO/MOデータ
-- `manifest.webmanifest` PWA設定
-- `service-worker.js` オフラインキャッシュ
-- `.github/workflows/pages.yml` GitHub Pagesデプロイ
-- `CODEX_PROMPT.md` Codexへの開発指示
+## 練習
 
-## GitHub Pages
-1. このフォルダ一式をGitHubリポジトリのルートへ置く。
-2. GitHubの Settings → Pages → Source を **GitHub Actions** にする。
-3. Actionsの `Deploy GitHub Pages` が成功したら公開URLをiPhoneのSafariで開く。
-4. Safariの共有ボタン → **ホーム画面に追加**。
+- DO（セパレートブル・ダブルアウト）、MO（ファットブル・マスターアウト）、既存のSO（ファットブル・シングルアウト）。DOはダブルまたはインナーブル、MOはダブル・トリプル・ブルで終了します。
+- 点数帯プリセット（121〜170など）と2〜180の任意範囲。3本で上がれない点数は自動的に除外。
+- 「間違えた問題を優先して復習」: 選択範囲内の復習待ちから70%の確率で出題。残りは通常抽選。同じ点数の連続出題は、候補が1つのとき以外避けます。正解すると復習待ちを解除。
+- 合法な回答は候補と一致しなくても正解。正答率はルール別の正解数÷回答数。入力中は正解と成績を確定せず、「回答する」で1回答を保存し、未回答で次に進んでも集計しません。「1投戻す」「クリア」は直前回答の集計も取り消します。
+- 「回答する」を押すと正解候補と解説を表示。入力だけでは候補を表示しません。
+- 入力はシングル・ダブル・トリプルの種類を選び、共通の1〜20から数字を押します。ブル・SB・MISSは専用ボタンです。
+- 「指定点数を練習」で2〜180の任意点数を選べます。3本で上がれない点数も選択でき、「3本で上がれない」で答え合わせできます。指定練習の回答もルール別の成績に含まれます。
+- 解説には最初の狙いを外した場合（同じ数字のシングル、隣の数字のシングル、得点なし、DOブル狙いのSB）の残り点数とアレンジを表示。残り2本で上がれない場合はその旨を示し、可能なら次のラウンドの3本ルートも併記します。
+- 成績・復習待ち・設定・自分アレンジは端末に保存。既存の自分アレンジ保存キーは引き継ぎ、合法なデータを表示します。
 
-## 注意
-元データは学習資料作成時のJSONです。アプリ側では明らかに不正なトークンを除外しますが、競技上の「推奨ルート」そのものの妥当性は、今後Codex側でテストとレビューを追加して検証してください。
+## 起動
+
+Python 3とNode.js（テスト用）があれば依存インストールは不要です。
+
+```sh
+cd /workspace/darts-arrange-practice
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+ファイルを直接開く方法では、JSON取得とPWAが動作しません。ローカルHTTP、公開時はHTTPSを使用します。すべてのリソースは相対パスなのでGitHub Pagesのリポジトリ配下にも対応します。
+
+## iPhone・オフライン
+
+HTTPSで公開したアプリをSafariで開き、「オフライン利用の準備ができました」を確認して、共有 →「ホーム画面に追加」。初回は通信が必要です。その後は画面、JSON、練習、成績保存がオフラインで動作します。更新通知が出たらアプリの窓をすべて閉じて再起動してください。
+
+公開用のGitHub Pagesワークフローは現在ありません。公開する場合はGitHub Settings → Pagesで `Deploy from a branch` を選び、対象ブランチの `/ (root)` を指定します。この変更の実装・テストだけでは公開されません。
+
+## テスト
+
+```sh
+node --test tests/core.test.cjs
+node --test tests/browser.test.cjs
+```
+
+ブラウザーテストはPython 3、Playwright、Chromiumが必要です。このクラウド環境には導入済み。Chromiumの別パスは `CHROMIUM_PATH` で指定できます。他の環境では例えばリポジトリ外へPlaywrightをインストールして使えます。
+
+```sh
+npm install --prefix /tmp/darts-browser-tests playwright@1.62.1
+NODE_PATH=/tmp/darts-browser-tests/node_modules CHROMIUM_PATH=/usr/bin/chromium node --test tests/browser.test.cjs
+```
+
+単体テストはJSON全179行、DO/MO/SO、バースト、不正ルート、点数帯・復習抽選を確認。ブラウザーテストはiPhoneサイズのChromiumで通常の静的サーバーとサブパスを使い、操作・成績の取り消し・保存・切替・170のブル終了・新しい窓でのオフライン起動を確認します。iPhone実機のSafariとホーム画面追加は別途実機で確認してください。
+
+全ファイル確認結果、JSONの修正箇所は [docs/code-review.md](docs/code-review.md) に記載しています。

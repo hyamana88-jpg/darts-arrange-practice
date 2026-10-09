@@ -8,16 +8,39 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Darts Trainer">
 <title>ダーツ アレンジ練習</title>
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" href="./icons/icon-192.png">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div class="wrap">
+<section class="card ruleCard" aria-label="ルール選択"><div class="cardBody">          <div class="routeGroupTitle">ルール</div>
+          <div class="chipRow" id="modeSelector">
+            <label class="chip active"><input type="radio" name="mode" value="fat_single"> ファットブル・シングルアウト</label>
+            <label class="chip"><input type="radio" name="mode" value="fat_master"> MO · ファットブル</label>
+            <label class="chip"><input type="radio" name="mode" value="sep_double" checked> DO · セパレートブル</label>
+          </div>
+
+</div></section>
   <section class="hero">
     <h1>ダーツ アレンジ練習アプリ</h1>
     <p>残り点数から 3 本以内で上がる練習用です。標準候補と短い考え方を並べて表示し、<strong>標準正解</strong>と<strong>ルール上の正解</strong>を分けて判定します。</p>
+      <p class="installNote">iPhone: Safariの共有 →「ホーム画面に追加」。初回はオンラインで開いてください。</p>
+    <p id="offlineStatus" role="status">オフライン利用を準備中…</p>
   </section>
 
+  <section class="card targetCard">
+    <div class="cardHeader"><h2 class="cardTitle">指定点数を練習</h2></div>
+    <div class="cardBody">
+      <p class="detail">2〜180の好きな点数を指定できます。上がれない点数も学習できます。</p>
+      <div class="rangeRow">
+        <label>練習する点数<input id="targetScore" type="number" min="2" max="180" inputmode="numeric" value="121"></label>
+        <button class="btn btnPrimary" onclick="startTargetPractice()">この点数で練習</button>
+      </div>
+      <p id="targetMessage" class="detail" role="status"></p>
+    </div>
+  </section>
   <div class="layout">
     <div class="stack">
       <section class="card">
@@ -45,13 +68,34 @@
         </div>
 
         <div class="cardBody">
-          <div class="routeGroupTitle">ルール</div>
-          <div class="chipRow" id="modeSelector">
-            <label class="chip active"><input type="radio" name="mode" value="fat_single" checked> ファットブル・シングルアウト</label>
-            <label class="chip"><input type="radio" name="mode" value="fat_master"> ファットブル・マスターアウト</label>
-            <label class="chip"><input type="radio" name="mode" value="sep_double"> セパレートブル・ダブルアウト</label>
+          <details class="practiceSettings" open>
+            <summary>出題設定</summary>
+            <label for="rangePreset">点数帯</label>
+            <select id="rangePreset">
+              <option value="">自由に指定</option>
+              <option value="2-170">2〜170</option>
+              <option value="2-60">2〜60</option>
+              <option value="61-100">61〜100</option>
+              <option value="101-120">101〜120</option>
+              <option value="121-170">121〜170</option>
+              <option value="171-180">171〜180（MO/SO）</option>
+            </select>
+            <div class="rangeRow">
+              <label>下限<input id="rangeMin" type="number" inputmode="numeric" min="2" max="180" value="2"></label>
+              <span>〜</span>
+              <label>上限<input id="rangeMax" type="number" inputmode="numeric" min="2" max="180" value="170"></label>
+              <button class="btn btnSoft" onclick="newGame()">範囲を適用</button>
+            </div>
+            <label class="reviewToggle"><input id="reviewPriority" type="checkbox" checked> 間違えた問題を優先して復習</label>
+            <p class="detail" id="rangeMessage" role="status"></p>
+          </details>
+          <div class="stats" aria-label="現在のルールの成績">
+            <strong>正答率 <span id="accuracy">—</span></strong>
+            <span id="statsCount">0正解 / 0回答</span>
+            <div id="reviewScores">復習待ちはありません</div>
+            <small>成績はルール別にこの端末へ保存。未回答は集計しません。</small>
           </div>
-
+          <p id="storageNotice" role="status"></p>
           <div class="controls">
             <button class="btn btnPrimary" onclick="newGame()">新しい問題</button>
             <button class="btn btnSoft" onclick="undoThrow()">1投戻す</button>
@@ -60,7 +104,7 @@
 
           <div class="throws" id="throws"></div>
 
-          <div class="resultBox">
+          <div class="resultBox" role="status" aria-live="polite">
             <div class="resultLine">
               <div class="resultText" id="resultText">入力途中</div>
             </div>
@@ -73,40 +117,35 @@
         <div class="cardHeader">
           <div>
             <h2 class="cardTitle">入力ボタン</h2>
-            <div class="cardSub">シングル・ダブル・トリプル・ブル / MISS を完全に分けています</div>
+            <div class="cardSub">種類を選び、数字を押すと1投分を入力します</div>
           </div>
         </div>
         <div class="boardSection">
-          <div class="twoCol">
-            <div>
-              <div class="groupLabel single">シングル</div>
-              <div class="boardGrid" id="singleGrid"></div>
-            </div>
-            <div>
-              <div class="groupLabel double">ダブル</div>
-              <div class="boardGrid" id="doubleGrid"></div>
-            </div>
-            <div>
-              <div class="groupLabel triple">トリプル</div>
-              <div class="boardGrid" id="tripleGrid"></div>
-            </div>
-            <div>
-              <div class="groupLabel bull">ブル / MISS</div>
-              <div class="boardGrid" id="bullGrid"></div>
-            </div>
+          <div class="boardTabs" role="group" aria-label="入力の種類">
+            <button class="btn btnSoft" data-prefix="S" aria-pressed="true">シングル</button>
+            <button class="btn btnSoft" data-prefix="D" aria-pressed="false">ダブル</button>
+            <button class="btn btnSoft" data-prefix="T" aria-pressed="false">トリプル</button>
+          </div>
+          <p id="inputKind" class="detail">シングルを入力</p>
+          <div class="boardGrid" id="numberGrid" aria-label="1から20の数字"></div>
+          <div class="boardGrid bullInputs" id="bullGrid"></div>
+          <div class="controls">
+            <button id="submitAnswer" class="btn btnPrimary" onclick="submitAnswer()">回答する</button>
+            <button id="impossibleAnswer" class="btn btnSoft" onclick="submitAnswer(true)">3本で上がれない</button>
           </div>
         </div>
         <div class="footerNote">
-          ファットブルでは BULL = 50、セパレートブルでは BULL = 50 / SB = 25 として扱います。
+          BULL = 50。DOではインナーブルで終了できます。SB = 25はDOのみ。MOはダブル・トリプル・ブルで終了。
         </div>
       </section>
 
 <div class="card" style="margin-top:16px;">
 <div class="cardHeader">
-<h2 class="cardTitle">標準正解</h2>
+<h2 class="cardTitle">回答の確認</h2>
+
 </div>
 <div class="cardBody">
-<div id="standardAnswer">入力後に表示されます</div>
+<div id="standardAnswer">「回答する」を押すと表示されます</div>
 </div>
 </div>
 
@@ -117,7 +156,7 @@
         <div class="cardHeader">
           <div>
             <h2 class="cardTitle">正解候補</h2>
-            <div class="cardSub">標準候補と自分登録候補を分けて表示します</div>
+            <div class="cardSub">合法な候補例と自分登録候補を表示します</div>
           </div>
         </div>
         <div class="cardBody">
@@ -139,6 +178,8 @@
             <h3 id="explainTitle">考え方</h3>
             <div class="explainText" id="explainText"></div>
             <ul class="tipList" id="tipList"></ul>
+            <h3>外した場合のアレンジ</h3>
+            <div id="missPlans" class="detail"></div>
           </div>
         </div>
       </section>
@@ -153,10 +194,11 @@
         <div class="cardBody">
           <div class="customBox">
             <div class="formRow">
-              <input type="number" id="customScore" min="1" max="170" placeholder="点数">
-              <input type="text" id="customRoute" placeholder="例: T12,D18">
+              <input type="number" id="customScore" min="2" max="180" inputmode="numeric" placeholder="点数" aria-label="登録する点数">
+              <input type="text" id="customRoute" placeholder="例: T12,D18" aria-label="登録するルート" autocapitalize="characters" spellcheck="false">
               <button class="btn btnPrimary" onclick="saveCustomRoute()">登録</button>
             </div>
+            <p id="customMessage" role="status" class="detail"></p>
             <div class="savedList" id="savedList"></div>
           </div>
         </div>
@@ -164,6 +206,7 @@
     </div>
   </div>
 </div>
+<script src="./practice-core.js" defer></script>
 <script src="./app.js" defer></script>
 </body>
 </html>

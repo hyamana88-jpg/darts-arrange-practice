@@ -127,11 +127,11 @@
     "score": 9,
     "doubleOut": {
       "route": [
-        "D1",
+        "S1",
         "D4"
       ],
-      "routeText": "D1 → D4",
-      "note": "1本で偶数化"
+      "routeText": "S1 → D4",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     },
     "masterOutFatBull": {
       "route": [
@@ -412,11 +412,11 @@
     "score": 25,
     "doubleOut": {
       "route": [
-        "D9",
+        "S9",
         "D8"
       ],
-      "routeText": "D9 → D8",
-      "note": "1本で偶数化"
+      "routeText": "S9 → D8",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     },
     "masterOutFatBull": {
       "route": [
@@ -1575,11 +1575,11 @@
     },
     "masterOutFatBull": {
       "route": [
-        "T17",
-        "D16"
+        "T19",
+        "T10"
       ],
-      "routeText": "T17 → D16",
-      "note": "Double終点"
+      "routeText": "T19 → T10",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     }
   },
   {
@@ -2251,10 +2251,10 @@
       "route": [
         "T20",
         "T11",
-        "T14"
+        "D14"
       ],
-      "routeText": "T20 → T11 → T14",
-      "note": "1本で2ダーツ上がりへ"
+      "routeText": "T20 → T11 → D14",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     },
     "masterOutFatBull": {
       "route": [
@@ -2405,12 +2405,12 @@
     },
     "masterOutFatBull": {
       "route": [
-        "D",
-        "D",
-        "D14"
+        "T18",
+        "T8",
+        "B"
       ],
-      "routeText": "D → D → D14",
-      "note": "Double終点"
+      "routeText": "T18 → T8 → B",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     }
   },
   {
@@ -2502,11 +2502,11 @@
     "doubleOut": {
       "route": [
         "T20",
-        "T17",
-        "D16"
+        "T19",
+        "D8"
       ],
-      "routeText": "T20 → T17 → D16",
-      "note": "高チェックアウト"
+      "routeText": "T20 → T19 → D8",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     },
     "masterOutFatBull": {
       "route": [
@@ -2629,10 +2629,10 @@
       "route": [
         "T19",
         "T14",
-        "D16"
+        "D20"
       ],
-      "routeText": "T19 → T14 → D16",
-      "note": "高チェックアウト"
+      "routeText": "T19 → T14 → D20",
+      "note": "3本以内の合法ルート例（得意な狙いに応じて選択）"
     },
     "masterOutFatBull": {
       "route": [

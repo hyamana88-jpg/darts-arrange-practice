@@ -106,15 +106,23 @@ let checkoutByScore = new Map();
 
 async function loadCheckoutData(){
   try{
-    const res = await fetch("./data/darts_checkout_2_180_do_mo.json", {cache:"no-cache"});
+    const res = await fetch("./darts_checkout_2_180_do_mo.json", {cache:"no-cache"});
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
     checkoutData = await res.json();
-    checkoutByScore = new Map(checkoutData.map(x=>[Number(x.score), x]));
+    checkoutByScore = new Map(checkoutData.filter(x => Number.isInteger(x.score)).map(x=>[x.score, x]));
   }catch(err){
     console.warn("Checkout JSON could not be loaded; using built-in routes only.", err);
   }
 }
 
+const Core = PracticeCore;
+const PROGRESS_KEY = 'darts_progress_v1';
+const SETTINGS_KEY = 'darts_settings_v1';
+let progress = readProgress();
+let resultReceipt = null;
+let answerShown = false;
+let selectedPrefix = 'S';
+let targetPractice = false;
 let startScore = 0;
 let currentScore = 0;
 let throws = [];
@@ -138,60 +146,42 @@ function updateModeChips(){
     if(chip.querySelector('input').checked) chip.classList.add('active');
   });
 }
-function tokenValue(token){
-  if(token === 'MISS') return 0;
-  if(token === 'BULL') return 50;
-  if(token === 'SB') return 25;
-  const m = token[0];
-  const n = Number(token.slice(1));
-  if(m === 'S') return n;
-  if(m === 'D') return n * 2;
-  if(m === 'T') return n * 3;
-  return 0;
-}
 function tokenClass(token){
   if(token === 'MISS') return 'M';
   if(token === 'BULL' || token === 'SB') return 'B';
   return token[0];
 }
-function finishAllowed(token){
-  const mode = currentMode();
-  if(mode === 'fat_single') return token !== 'MISS';
-  if(mode === 'fat_master') return token.startsWith('D') || token.startsWith('T') || token === 'BULL';
-  if(mode === 'sep_double') return token.startsWith('D');
-  return false;
-}
 function standardRoutes(score){
   const mode = currentMode();
-  if(mode === 'fat_single') return (STANDARD_ROUTES.fat_single && STANDARD_ROUTES.fat_single[score]) || [];
-
   const row = checkoutByScore.get(Number(score));
-  if(row){
-    const item = mode === 'sep_double' ? row.doubleOut : row.masterOutFatBull;
-    if(item && Array.isArray(item.route) && item.route.length){
-      // Normalize source tokens to app tokens. In MO data, B means fat bull (=50).
-      const normalized = item.route.map(t => t === 'B' ? 'BULL' : t);
-      // Ignore malformed source tokens rather than teaching an invalid route.
-      if(normalized.every(isValidToken)) return [normalized];
+  const item = mode === 'sep_double' ? row?.doubleOut : row?.masterOutFatBull;
+  if(mode !== 'fat_single' && Array.isArray(item?.route)) {
+    const route = item.route.map(Core.normalize);
+    if(Core.validRoute(score, route, mode)) return [route];
+  }
+  const builtIn = (STANDARD_ROUTES[mode]?.[score] || []).filter(r => Core.validRoute(score, r, mode));
+  if(builtIn.length) return builtIn;
+  const generated = Core.generatedRoute(score, mode);
+  return generated ? [generated] : [];
+}
+
+function isValidToken(token){ return Core.validToken(token, currentMode()); }
+
+function getCustomStore(){
+  const raw = readStorage('darts_custom_routes_v6', {});
+  const clean = {};
+  for(const mode of Core.MODES){
+    clean[mode] = {};
+    for(const [score, routes] of Object.entries(raw?.[mode] || {})){
+      if(!Number.isInteger(Number(score)) || Number(score) < 2 || Number(score) > 180 || !Array.isArray(routes)) continue;
+      clean[mode][score] = routes.filter(r => Core.validRoute(Number(score), r, mode));
     }
   }
-  return (STANDARD_ROUTES[mode] && STANDARD_ROUTES[mode][score]) || [];
+  return clean;
 }
 
-function isValidToken(token){
-  if(token === 'BULL' || token === 'SB' || token === 'MISS') return true;
-  return /^(S|D|T)([1-9]|1[0-9]|20)$/.test(token);
-}
-function getCustomStore(){
-  try{
-    return JSON.parse(localStorage.getItem('darts_custom_routes_v6') || '{}');
-  }catch(e){
-    return {};
-  }
-}
-function setCustomStore(data){
-  localStorage.setItem('darts_custom_routes_v6', JSON.stringify(data));
-}
+function setCustomStore(data){ return writeStorage('darts_custom_routes_v6', data); }
+
 function customRoutes(score){
   const store = getCustomStore();
   const mode = currentMode();
@@ -203,9 +193,6 @@ function routeEquals(a,b){
     if(a[i] !== b[i]) return false;
   }
   return true;
-}
-function allKnownRoutes(score){
-  return [...standardRoutes(score), ...customRoutes(score)];
 }
 function genericExplanation(score){
   if(score <= 40){
@@ -243,22 +230,24 @@ function genericExplanation(score){
   };
 }
 function updateExplanation(){
-  const data = EXPLANATIONS[startScore] || genericExplanation(startScore);
+  if(!answerShown && !resultReceipt){ document.getElementById('explainTitle').textContent = '考え方 / ' + currentModeLabel(); document.getElementById('explainText').textContent = '「回答する」を押すと解説を表示します。'; document.getElementById('tipList').textContent = ''; return; }
+  const data = currentMode() === 'sep_double' && EXPLANATIONS[startScore] ? EXPLANATIONS[startScore] : genericExplanation(startScore);
   document.getElementById('explainTitle').textContent = data.title + ' / ' + currentModeLabel();
   document.getElementById('explainText').textContent = data.text;
   document.getElementById('tipList').innerHTML = (data.tips || []).map(t=>`<li>${t}</li>`).join('');
 }
 function updateRoutes(){
+  if(!answerShown && !resultReceipt){ document.getElementById('routeArea').textContent = '「回答する」を押すと候補を表示します。'; return; }
   const standard = standardRoutes(startScore);
   const custom = customRoutes(startScore);
   const area = document.getElementById('routeArea');
   let html = '';
   if(standard.length){
-    html += `<div class="routeGroup"><div class="routeGroupTitle">標準候補</div>`;
+    html += `<div class="routeGroup"><div class="routeGroupTitle">候補例</div>`;
     html += standard.map(r=>`<div class="routeItem">${r.join(' → ')}</div>`).join('');
     html += `</div>`;
   }else{
-    html += `<div class="routeGroup"><div class="routeGroupTitle">標準候補</div><div class="routeItem">候補未登録</div></div>`;
+    html += `<div class="routeGroup"><div class="routeGroupTitle">候補例</div><div class="routeItem">候補未登録</div></div>`;
   }
 
   if(custom.length){
@@ -298,25 +287,53 @@ function updateAll(){
   updateThrows();
   updateRoutes();
   updateExplanation();
+  updateStats();
+  const locked = !!resultReceipt || Core.outcome(startScore, throws, currentMode()).done;
+  document.querySelectorAll('.dartBtn').forEach(b => { b.disabled = locked || (b.textContent === 'SB' && currentMode() !== 'sep_double'); });
+  document.getElementById('submitAnswer').disabled = !!resultReceipt || !throws.length;
+  document.getElementById('impossibleAnswer').disabled = !!resultReceipt;
+  updateMissPlans();
 }
 function newGame(){
-  const mode = currentMode();
-  if(mode === 'fat_single'){
-    const candidates = Object.keys(STANDARD_ROUTES.fat_single).map(Number);
-    startScore = candidates[Math.floor(Math.random()*candidates.length)];
-  }else{
-    const candidates = checkoutData
-      .filter(x=>{ const r = mode === 'sep_double' ? x.doubleOut?.route : x.masterOutFatBull?.route; return Array.isArray(r) && r.length; })
-      .map(x=>Number(x.score));
-    startScore = candidates.length ? candidates[Math.floor(Math.random()*candidates.length)] : (Math.floor(Math.random()*81)+40);
+  const min = Number(document.getElementById('rangeMin').value);
+  const max = Number(document.getElementById('rangeMax').value);
+  const pool = Core.candidates(min, max, currentMode());
+  if(!pool.length){
+    document.getElementById('rangeMessage').textContent = '2〜180の範囲を指定してください。このルールで3本以内に上がれる点数が必要です。';
+    return;
   }
-  currentScore = startScore;
+  const review = document.getElementById('reviewPriority').checked;
+  const next = Core.select(pool, progress[currentMode()] || {}, review, startScore);
+  const omitted = max - min + 1 - pool.length;
+  document.getElementById('rangeMessage').textContent = `${pool.length}種類から出題${omitted ? `（3本で上がれない${omitted}点数を除外）` : ''}。`;
+  saveSettings();
+  targetPractice = false;
+  document.getElementById('targetMessage').textContent = '';
+  beginQuestion(next);
+}
+function beginQuestion(score){
+  resultReceipt = null;
+  answerShown = false;
+  startScore = score;
+  currentScore = score;
   throws = [];
   history = [];
-  setStatus('info','入力途中','3本以内でちょうど 0 にし、最後の1本が現在のアウト条件を満たすと成功です。');
+  setStatus('info','入力途中','ルートを入力して「回答する」で答え合わせします。');
   updateAll(); showStandardAnswer();
 }
+function startTargetPractice(){
+  const score = Number(document.getElementById('targetScore').value);
+  if(!Number.isInteger(score) || score < 2 || score > 180){
+    document.getElementById('targetMessage').textContent = '2〜180の整数を指定してください。'; return;
+  }
+  targetPractice = true;
+  document.getElementById('targetMessage').textContent = `${score}点を練習中。3本で上がれないと思ったら、その回答を選んでください。`;
+  beginQuestion(score);
+}
+
 function clearThrows(){
+  retractResult();
+  answerShown = false;
   currentScore = startScore;
   throws = [];
   history = [];
@@ -324,7 +341,9 @@ function clearThrows(){
   updateAll(); showStandardAnswer();
 }
 function undoThrow(){
-  if(!history.length) return;
+  if(!history.length){ if(resultReceipt){ retractResult(); answerShown = false; setStatus('info','未回答','回答を取り消しました。'); updateAll(); showStandardAnswer(); } return; }
+  retractResult();
+  answerShown = false;
   const back = history.pop();
   currentScore = back.prevScore;
   throws.pop();
@@ -335,69 +354,59 @@ function undoThrow(){
   }
   updateAll(); showStandardAnswer();
 }
-function finalizeByThreeDarts(){
-  if(currentScore === 0) return;
-  setStatus('warn','3投で未クリア','3本終了時点で残り ' + currentScore + ' 点です。');
-}
-
 function showStandardAnswer(){
-  const routes = standardRoutes(startScore);
   const el = document.getElementById('standardAnswer');
-  if(!routes.length){
-    el.innerHTML="標準候補未登録";
-    return;
-  }
-  el.innerHTML = routes.map(r=>"<div>"+r.join(" → ")+"</div>").join("");
+  if(!answerShown && !resultReceipt){ el.textContent = '「回答する」を押すと表示されます'; return; }
+  const routes = standardRoutes(startScore);
+  el.textContent = routes.length ? routes.map(r=>r.join(' → ')).join(' / ') : 'この点数は3本以内で上がれません';
 }
 
 function addThrow(token){
-  if(throws.length >= 3) return;
-
+  if(resultReceipt || throws.length >= 3 || !isValidToken(token) || Core.outcome(startScore, throws, currentMode()).done) return;
   history.push({prevScore: currentScore});
   throws.push(token);
-  currentScore -= tokenValue(token);
-
-  if(currentScore < 0){
-    setStatus('bad','バースト','0 を下回ったため失敗です。');
-  }else if(currentScore === 0){
-    if(!finishAllowed(token)){
-      setStatus('bad','アウト条件違反','0 にはなりましたが、最後の1本が現在のアウト条件を満たしていません。');
-    }else{
-      const exactStandard = standardRoutes(startScore).some(r=>routeEquals(r, throws));
-      if(exactStandard){
-        setStatus('ok','標準正解','標準候補に一致しています。');
-      }else{
-        setStatus('info','ルール上は正解','0 ちょうどでアウト条件も満たしています。');
-      }
-    }
+  currentScore = Core.outcome(startScore, throws, currentMode()).remaining;
+  setStatus('info','未回答', '入力を確認して「回答する」を押してください。');
+  updateAll(); showStandardAnswer();
+}
+function submitAnswer(impossible = false){
+  if(resultReceipt) return;
+  if(!impossible && !throws.length){ setStatus('warn','未入力','ルートを入力するか「3本で上がれない」を選んでください。'); return; }
+  const result = Core.outcome(startScore, throws, currentMode());
+  const canFinish = !!Core.generatedRoute(startScore, currentMode());
+  const correct = impossible ? !canFinish : result.correct;
+  recordResult(correct);
+  answerShown = true;
+  if(correct){
+    const exact = standardRoutes(startScore).some(r=>routeEquals(r, throws));
+    setStatus('ok', impossible ? '正解：3本では上がれません' : exact ? '標準正解' : 'ルール上は正解', '正解として保存しました。');
   }else{
-    if(throws.length >= 3){
-      finalizeByThreeDarts();
-    }else{
-      setStatus('info','入力途中','残り ' + currentScore + ' 点です。');
-    }
+    const detail = impossible ? 'この点数には3本以内の上がり目があります。' : result.reason === 'bust' ? 'バーストです。' : result.reason === 'finish-rule' ? '最後のアウト条件を満たしていません。' : '入力したルートでは上がりきれていません。';
+    setStatus('bad','不正解',detail + ' 復習対象に保存しました。');
   }
   updateAll(); showStandardAnswer();
 }
+
 function saveCustomRoute(){
   const score = Number(document.getElementById('customScore').value);
   const raw = document.getElementById('customRoute').value.trim();
-  if(!score || !raw){
-    alert('点数とルートを入力してください。');
+  const tokens = raw.split(',').map(s=>Core.normalize(s.trim().toUpperCase())).filter(Boolean);
+  const message = document.getElementById('customMessage');
+  if(!Number.isInteger(score) || score < 2 || score > 180 || !Core.validRoute(score, tokens, currentMode())){
+    message.textContent = '2〜180点、3本以内、合計点と現在のアウト条件を満たすルートを入力してください。';
     return;
   }
-  const tokens = raw.split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
   const store = getCustomStore();
   const mode = currentMode();
-  if(!store[mode]) store[mode] = {};
-  if(!store[mode][String(score)]) store[mode][String(score)] = [];
-  store[mode][String(score)].push(tokens);
-  setCustomStore(store);
+  if(!store[mode][score]) store[mode][score] = [];
+  if(!store[mode][score].some(r=>routeEquals(r,tokens))) store[mode][score].push(tokens);
+  if(!setCustomStore(store)){ message.textContent = '保存できませんでした。端末の保存設定を確認してください。'; return; }
   document.getElementById('customScore').value = '';
   document.getElementById('customRoute').value = '';
-  updateSavedList();
-  updateRoutes();
+  message.textContent = 'このルールの候補に保存しました。';
+  updateSavedList(); updateRoutes();
 }
+
 function updateSavedList(){
   const store = getCustomStore();
   const mode = currentMode();
@@ -418,60 +427,149 @@ function updateSavedList(){
   }).join('');
 }
 function buildButtons(){
-  const singleGrid = document.getElementById('singleGrid');
-  const doubleGrid = document.getElementById('doubleGrid');
-  const tripleGrid = document.getElementById('tripleGrid');
-  const bullGrid = document.getElementById('bullGrid');
-
-  for(let i=1;i<=20;i++){
-    const s = document.createElement('button');
-    s.className = 'dartBtn single';
-    s.textContent = 'S' + i;
-    s.onclick = ()=>addThrow('S'+i);
-    singleGrid.appendChild(s);
-
-    const d = document.createElement('button');
-    d.className = 'dartBtn double';
-    d.textContent = 'D' + i;
-    d.onclick = ()=>addThrow('D'+i);
-    doubleGrid.appendChild(d);
-
-    const t = document.createElement('button');
-    t.className = 'dartBtn triple';
-    t.textContent = 'T' + i;
-    t.onclick = ()=>addThrow('T'+i);
-    tripleGrid.appendChild(t);
+  const grid = document.getElementById('numberGrid');
+  for(let number=1;number<=20;number++){
+    const button = document.createElement('button');
+    button.className = 'dartBtn single';
+    button.textContent = number;
+    button.dataset.number = number;
+    button.onclick = () => addThrow(selectedPrefix + number);
+    grid.appendChild(button);
   }
+  for(const token of ['BULL','SB','MISS']){
+    const button = document.createElement('button');
+    button.className = 'dartBtn ' + (token === 'MISS' ? 'miss' : 'bull');
+    button.textContent = token;
+    button.onclick = () => addThrow(token);
+    document.getElementById('bullGrid').appendChild(button);
+  }
+}
 
-  [
-    {label:'BULL', cls:'bull', token:'BULL'},
-    {label:'SB', cls:'bull', token:'SB'},
-    {label:'MISS', cls:'miss', token:'MISS'}
-  ].forEach(item=>{
-    const b = document.createElement('button');
-    b.className = 'dartBtn ' + item.cls;
-    b.textContent = item.label;
-    b.onclick = ()=>addThrow(item.token);
-    bullGrid.appendChild(b);
-  });
+function readStorage(key, fallback){
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+}
+function writeStorage(key, value){
+  try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+  catch { document.getElementById('storageNotice').textContent = '端末に保存できません。今回の練習は続けられますが、終了後に成績が失われることがあります。'; return false; }
+}
+function readProgress(){
+  const raw = readStorage(PROGRESS_KEY, {});
+  const clean = {};
+  for(const mode of Core.MODES){
+    clean[mode] = {};
+    for(const [score, item] of Object.entries(raw?.[mode] || {})){
+      if(!item || !Number.isInteger(Number(score)) || Number(score) < 2 || Number(score) > 180) continue;
+      if(!Number.isInteger(item.attempts) || !Number.isInteger(item.correct) || item.correct < 0 || item.attempts < item.correct) continue;
+      clean[mode][score] = { attempts: item.attempts, correct: item.correct, review: item.review === true };
+    }
+  }
+  return clean;
+}
+function recordResult(correct){
+  const mode = currentMode();
+  const before = progress[mode][startScore];
+  resultReceipt = { mode, score: startScore, before: before ? {...before} : null };
+  progress[mode][startScore] = { attempts: (before?.attempts || 0) + 1, correct: (before?.correct || 0) + Number(correct), review: !correct };
+  writeStorage(PROGRESS_KEY, progress);
+}
+function retractResult(){
+  if(!resultReceipt) return;
+  const {mode, score, before} = resultReceipt;
+  if(before) progress[mode][score] = before; else delete progress[mode][score];
+  resultReceipt = null;
+  writeStorage(PROGRESS_KEY, progress);
+}
+function updateStats(){
+  const entries = Object.entries(progress[currentMode()]);
+  const attempts = entries.reduce((sum,[,s])=>sum+s.attempts,0);
+  const correct = entries.reduce((sum,[,s])=>sum+s.correct,0);
+  document.getElementById('accuracy').textContent = attempts ? `${Math.round(correct / attempts * 100)}%` : '—';
+  document.getElementById('statsCount').textContent = `${correct}正解 / ${attempts}回答`;
+  const weak = entries.filter(([,s])=>s.review).map(([score])=>Number(score)).sort((a,b)=>a-b);
+  document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.join('、')}点` : '復習待ちはありません';
+}
+function saveSettings(){
+  writeStorage(SETTINGS_KEY, { mode: currentMode(), min: Number(document.getElementById('rangeMin').value), max: Number(document.getElementById('rangeMax').value), review: document.getElementById('reviewPriority').checked });
+}
+function restoreSettings(){
+  const settings = readStorage(SETTINGS_KEY, {});
+  if(Core.MODES.includes(settings.mode)) document.querySelector(`input[value="${settings.mode}"]`).checked = true;
+  if(Core.candidates(settings.min, settings.max, currentMode()).length){
+    document.getElementById('rangeMin').value = settings.min;
+    document.getElementById('rangeMax').value = settings.max;
+  }
+  document.getElementById('reviewPriority').checked = settings.review !== false;
+}
+function updateMissPlans(){
+  const area = document.getElementById('missPlans');
+  if(!answerShown){ area.textContent = '回答後に表示します。'; return; }
+  const route = standardRoutes(startScore)[0];
+  if(!route){ area.textContent = '3本以内の上がり目はありません。次のラウンドに上がりやすい点数を残しましょう。'; return; }
+  area.textContent = '';
+  const heading = document.createElement('p');
+  heading.textContent = `最初の${route[0]}を外した例（残り2本）。`;
+  area.appendChild(heading);
+  for(const plan of Core.missPlans(startScore, route, currentMode())){
+    const item = document.createElement('p');
+    const result = plan.done ? (plan.correct ? 'そのまま上がり' : plan.reason === 'finish-rule' ? 'アウト条件違反。このラウンド開始時の点数に戻ります。' : 'バースト。このラウンド開始時の点数に戻ります。') : plan.route ? `残り${plan.remaining}点 → ${plan.route.join(' → ')}` : `残り${plan.remaining}点。残り2本では上がれません。${plan.nextTurn ? `次のラウンドなら ${plan.nextTurn.join(' → ')}` : '次の上がり目を作る必要があります。'}`;
+    item.textContent = `${plan.actual === 'MISS' ? '得点なし' : plan.actual + 'に入った場合'}: ${result}`;
+    area.appendChild(item);
+  }
 }
 document.querySelectorAll('input[name="mode"]').forEach(el=>{
   el.addEventListener('change', ()=>{
-    updateModeChips();
-    clearThrows();
-    updateRoutes();
-    updateExplanation();
+    // Keep confirmed results in the old mode; an unfinished question is not counted.
+    const min = Number(document.getElementById('rangeMin').value);
+    const max = Number(document.getElementById('rangeMax').value);
+    if(!Core.candidates(min,max,currentMode()).length){
+      document.getElementById('rangeMin').value = 2;
+      document.getElementById('rangeMax').value = 170;
+    }
+    if(targetPractice){ document.getElementById('targetScore').value = startScore; startTargetPractice(); } else newGame();
     updateSavedList();
   });
 });
-
+document.getElementById('rangePreset').addEventListener('change', e=>{
+  if(!e.target.value) return;
+  const [min,max] = e.target.value.split('-');
+  document.getElementById('rangeMin').value = min;
+  document.getElementById('rangeMax').value = max;
+  newGame();
+});
+document.getElementById('reviewPriority').addEventListener('change', saveSettings);
+document.querySelectorAll('[data-prefix]').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedPrefix = button.dataset.prefix;
+    document.querySelectorAll('[data-prefix]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    const kind = {S:'single',D:'double',T:'triple'}[selectedPrefix];
+    document.querySelectorAll('#numberGrid button').forEach(b => { b.className = 'dartBtn ' + kind; });
+    document.getElementById('inputKind').textContent = button.textContent + 'を入力';
+  });
+});
 async function boot(){
-  buildButtons();
-  updateSavedList();
+  restoreSettings(); buildButtons(); updateSavedList();
   await loadCheckoutData();
   newGame();
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('SW registration failed', err));
-  }
+    try {
+      const registration = await navigator.serviceWorker.register('./service-worker.js');
+      let timer;
+      try {
+        await Promise.race([navigator.serviceWorker.ready, new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error('Offline cache activation timed out')), 15000);
+        })]);
+      } finally { clearTimeout(timer); }
+      document.getElementById('offlineStatus').textContent = 'オフライン利用の準備ができました';
+      if(registration.waiting) document.getElementById('offlineStatus').textContent = '更新があります。アプリをすべて閉じて開き直してください。';
+      registration.addEventListener('updatefound', ()=>{
+        registration.installing?.addEventListener('statechange', ()=>{
+          if(registration.waiting) document.getElementById('offlineStatus').textContent = '更新があります。アプリをすべて閉じて開き直してください。';
+        });
+      });
+    } catch(err) {
+      document.getElementById('offlineStatus').textContent = 'オフライン準備に失敗しました。通信環境とHTTPS配信を確認してください。';
+      console.warn('SW registration failed', err);
+    }
+  }else document.getElementById('offlineStatus').textContent = 'オフライン利用にはHTTPSで開いてください。';
 }
 boot();
