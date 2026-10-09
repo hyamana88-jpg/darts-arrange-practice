@@ -79,6 +79,9 @@
     if (!Number.isInteger(min) || !Number.isInteger(max) || min < 2 || max > 180 || min > max || !MODES.includes(mode)) return [];
     return Array.from({ length: max - min + 1 }, (_, i) => min + i).filter(s => generatedRoute(s, mode));
   }
+  function nextSequential(scores, previous) {
+    return scores.find(score=>previous === null || score>previous) ?? scores[0] ?? null;
+  }
   function select(scores, stats, prioritize, previous, random = Math.random) {
     if (!scores.length) return null;
     const pool = scores.length > 1 ? scores.filter(s => s !== previous) : scores;
@@ -86,7 +89,7 @@
     const choices = prioritize && weak.length && random() < 0.7 ? weak : pool;
     return choices[Math.min(choices.length - 1, Math.floor(random() * choices.length))];
   }
-  const api = { MODES, normalize, validToken, value, finish, outcome, validRoute, generatedRoute, missPlans, candidates, select };
+  const api = { MODES, normalize, validToken, value, finish, outcome, validRoute, generatedRoute, missPlans, candidates, nextSequential, select };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.PracticeCore = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

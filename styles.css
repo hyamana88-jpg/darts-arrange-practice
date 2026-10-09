@@ -246,3 +246,65 @@ select{max-width:100%;padding:10px;border:1px solid var(--border);border-radius:
 .pickerBands [aria-pressed="true"]{background:#312e81;color:white}
 .pickerChoices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .pickerChoices .btn{padding:12px 0;min-height:48px;font-size:16px}
+/* One task per screen; practice controls fit the available phone viewport. */
+[hidden]{display:none!important}
+html,body{height:100%;overflow:hidden}
+body{background:#eef2ff}
+.appShell{height:100vh;height:100dvh;max-width:620px;padding: max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:8px}
+.appHeader{display:flex;justify-content:space-between;align-items:center;min-height:28px}
+.appNav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.appNav .btn{padding:8px 2px;font-size:13px}
+.appNav [aria-pressed="true"]{background:#312e81;color:white}
+.appScreen{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:12px;background:white;border-radius:16px;overflow:hidden}
+.appScreen h1,.appScreen h2{font-size:20px;margin:4px 0}
+.appScreen p{margin:4px 0}
+.appScreen .liveScore{position:static;flex:none;padding:10px 6px;margin:0}
+.appScreen .throws{min-height:40px;padding:0;align-items:center}
+.appScreen .throwChip{padding:7px 10px}
+.editControls{margin:0;gap:6px}
+.editControls .btn{padding:8px 12px}
+.boardSection{padding:0;display:flex;flex-direction:column;gap:6px;flex:1;min-height:0}
+.boardTabs{margin:0}
+#inputKind{display:none}
+#numberGrid{flex:1;min-height:176px;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(4,minmax(44px,1fr));gap:6px}
+#numberGrid .dartBtn{padding:0;min-height:44px}
+.bullInputs{margin:0;flex:none}
+.bullInputs .dartBtn{padding:8px 0;min-height:44px}
+.boardSection .controls{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.boardSection .controls .btn{padding:10px 4px;font-size:14px}
+.screenActions{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap}
+.screenActions .btn{flex:1;padding:10px 6px}
+.ruleCard{margin:0;box-shadow:none;border:0;flex:none}
+.ruleCard .cardBody{padding:0}
+.ruleCard .routeGroupTitle{display:none}
+#quickMode{width:100%}
+.practiceSettings{margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:6px}
+.practiceSettings .rangeRow{margin:0;display:grid;grid-template-columns:1fr 20px 1fr;gap:6px;align-items:end}
+.practiceSettings .rangeRow .btn{grid-column:1/-1;width:100%}
+.practiceSettings select{width:100%}
+.practiceSettings .detail{font-size:12px;line-height:1.4}
+.stats{flex:none}
+#reviewScores{line-height:1.5}
+.customBox{padding:8px;min-height:0;display:flex;flex-direction:column;gap:4px}
+.customBox .formRow{grid-template-columns:80px 1fr;gap:6px}
+.customBox .formRow button{grid-column:1/-1}
+.savedList{min-height:0;max-height:none;overflow:hidden}
+#scorePicker{overflow:hidden;padding:12px;max-height:calc(100dvh - 20px)}
+.pickerBands{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:8px 0}
+.pickerBands .btn{font-size:12px;padding:6px 0}
+.pickerChoices{gap:6px}
+.pickerChoices .btn{min-height:44px;padding:8px 0}
+#missPlans{font-size:16px;line-height:1.8}
+#missPlans p{padding:8px;margin:0}
+@media(max-height:700px){
+ .appShell{gap:5px}
+ .appScreen{padding:8px;gap:5px}
+ .appScreen .liveScore strong{font-size:24px}
+ .appScreen .liveScore{padding:6px}
+ .appScreen .throws{min-height:32px}
+ .practiceSettings{gap:4px}
+}
+.routeEditor{display:flex;align-items:center;gap:6px;min-height:44px}
+.routeEditor .throws{flex:1;min-width:0}
+.routeEditor .editControls{flex:none;flex-wrap:nowrap}
+.routeEditor .editControls .btn{padding:8px 6px;font-size:12px}

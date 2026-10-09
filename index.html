@@ -14,113 +14,24 @@
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<div class="wrap">
-<section class="card ruleCard" aria-label="ルール選択"><div class="cardBody">          <div class="routeGroupTitle">ルール</div>
-          <div class="chipRow" id="modeSelector">
-            <label class="chip active"><input type="radio" name="mode" value="fat_single"> ファットブル・シングルアウト</label>
-            <label class="chip"><input type="radio" name="mode" value="fat_master"> MO · ファットブル</label>
-            <label class="chip"><input type="radio" name="mode" value="sep_double" checked> DO · セパレートブル</label>
-          </div>
-
-</div></section>
+<div class="wrap appShell">
+<header class="appHeader"><strong>ダーツ練習</strong><span id="activeModeLabel"></span></header>
+<nav class="appNav" aria-label="アプリの画面">
+<button class="btn btnSoft" data-screen="practice" onclick="showScreen('practice')">練習</button>
+<button class="btn btnSoft" data-screen="settings" onclick="showScreen('settings')">設定</button>
+<button class="btn btnSoft" data-screen="stats" onclick="showScreen('stats')">成績</button>
+<button class="btn btnSoft" onclick="openScorePicker()">点数を選ぶ</button>
+</nav>
+<section id="practiceScreen" class="appScreen" aria-label="問題と回答入力">
   <div class="liveScore" aria-label="入力中の点数">
     <div>出題 <strong id="inputStartScore">—</strong></div>
     <div>残り <strong id="inputCurrentScore">—</strong></div>
     <div>入力 <strong id="inputThrowCount">0</strong> / 3</div>
   </div>
-  <section class="hero">
-    <h1>ダーツ アレンジ練習アプリ</h1>
-    <p>残り点数から 3 本以内で上がる練習用です。標準候補と短い考え方を並べて表示し、<strong>標準正解</strong>と<strong>ルール上の正解</strong>を分けて判定します。</p>
-    <p id="offlineStatus" role="status" hidden>オフライン利用を準備中…</p>
-  </section>
 
-  <section class="card targetCard">
-    <div class="cardHeader"><h2 class="cardTitle">指定点数を練習</h2></div>
-    <div class="cardBody">
-      <p class="detail">2〜180の好きな点数を指定できます。上がれない点数も学習できます。</p>
-      <button class="btn btnPrimary" onclick="openScorePicker()">点数を選ぶ</button>
-      <p id="targetMessage" class="detail" role="status"></p>
-    </div>
-  </section>
-  <div class="layout">
-    <div class="stack">
-      <section class="card">
-        <div class="cardHeader">
-          <div>
-            <h2 class="cardTitle">現在の問題</h2>
-            <div class="cardSub">ルールを選び、残り点数から 0 を目指します</div>
-          </div>
-          <div id="statusBadge" class="badge info">入力途中</div>
-        </div>
-
-        <div class="scorePanel">
-          <div class="scoreBox">
-            <div class="scoreLabel">現在の残り点数</div>
-            <div class="scoreValue" id="currentScore">--</div>
-          </div>
-          <div class="miniBox">
-            <div class="miniLabel">開始点数</div>
-            <div class="miniValue" id="startScore">--</div>
-          </div>
-          <div class="miniBox">
-            <div class="miniLabel">入力本数</div>
-            <div class="miniValue"><span id="throwCount">0</span> / 3</div>
-          </div>
-        </div>
-
-        <div class="cardBody">
-          <details class="practiceSettings" open>
-            <summary>出題設定</summary>
-            <label for="rangePreset">点数帯</label>
-            <select id="rangePreset">
-              <option value="">自由に指定</option>
-              <option value="2-170">2〜170</option>
-              <option value="2-60">2〜60</option>
-              <option value="61-100">61〜100</option>
-              <option value="101-120">101〜120</option>
-              <option value="121-170">121〜170</option>
-              <option value="171-180">171〜180（MO/SO）</option>
-            </select>
-            <div class="rangeRow">
-              <label>下限<input id="rangeMin" type="number" inputmode="numeric" min="2" max="180" value="2"></label>
-              <span>〜</span>
-              <label>上限<input id="rangeMax" type="number" inputmode="numeric" min="2" max="180" value="170"></label>
-              <button class="btn btnSoft" onclick="newGame()">範囲を適用</button>
-            </div>
-            <label class="reviewToggle"><input id="reviewPriority" type="checkbox" checked> 間違えた問題を優先して復習</label>
-            <p class="detail" id="rangeMessage" role="status"></p>
-          </details>
-          <div class="stats" aria-label="現在のルールの成績">
-            <strong>正答率 <span id="accuracy">—</span></strong>
-            <span id="statsCount">0正解 / 0回答</span>
-            <div id="reviewScores">復習待ちはありません</div>
-            <small>成績はルール別にこの端末へ保存。未回答は集計しません。</small>
-          </div>
-          <p id="storageNotice" role="status"></p>
-          <div class="controls">
-            <button class="btn btnPrimary" onclick="newGame()">新しい問題</button>
-            <button class="btn btnSoft" onclick="undoThrow()">1投戻す</button>
-            <button class="btn btnWarn" onclick="clearThrows()">クリア</button>
-          </div>
-
-          <div class="throws" id="throws"></div>
-
-          <div class="resultBox" role="status" aria-live="polite">
-            <div class="resultLine">
-              <div class="resultText" id="resultText">入力途中</div>
-            </div>
-            <div class="detail" id="resultDetail">3本以内でちょうど 0 にし、最後の1本が現在のアウト条件を満たすと成功です。</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="cardHeader">
-          <div>
-            <h2 class="cardTitle">入力ボタン</h2>
-            <div class="cardSub">種類を選び、数字を押すと1投分を入力します</div>
-          </div>
-        </div>
+<span id="currentScore" hidden>--</span><span id="startScore" hidden>--</span><span id="throwCount" hidden>0</span>
+<div class="routeEditor"><div id="throws" class="throws" aria-label="入力したルート"></div>
+<div class="controls editControls"><button class="btn btnSoft" onclick="undoThrow()">1投戻す</button><button class="btn btnWarn" onclick="clearThrows()">クリア</button></div></div>
         <div class="boardSection">
           <div class="boardTabs" role="group" aria-label="入力の種類">
             <button class="btn btnSoft" data-prefix="S" aria-pressed="true">シングル</button>
@@ -135,64 +46,70 @@
             <button id="impossibleAnswer" class="btn btnSoft" onclick="submitAnswer(true)">3本で上がれない</button>
           </div>
         </div>
-        <div class="footerNote">
-          BULL = 50。DOではインナーブルで終了できます。SB = 25はDOのみ。MOはダブル・トリプル・ブルで終了。
-        </div>
-      </section>
 
-<div class="card" style="margin-top:16px;">
-<div class="cardHeader">
-<h2 class="cardTitle">回答の確認</h2>
-
-</div>
-<div class="cardBody">
-<div id="standardAnswer">「回答する」を押すと表示されます</div>
-</div>
-</div>
-
-    </div>
-
-    <div class="stack">
-      <section class="card">
-        <div class="cardHeader">
-          <div>
-            <h2 class="cardTitle">正解候補</h2>
-            <div class="cardSub">合法な候補例と自分登録候補を表示します</div>
+</section>
+<section id="resultScreen" class="appScreen" aria-label="回答結果" hidden>
+<h1>答え合わせ</h1><div id="statusBadge" class="badge info"></div>
+<div class="resultBox" role="status"><strong id="resultText"></strong><p id="resultDetail" class="detail"></p></div>
+<p id="resultQuestion"></p><p id="submittedRoute" class="mono"></p>
+<h2>正解候補</h2><div id="standardAnswer" class="routeItem"></div><div id="routeArea" hidden></div>
+<div class="screenActions"><button class="btn btnSoft" onclick="showScreen('explanation')">解説</button><button class="btn btnSoft" onclick="undoThrow()">回答を直す</button><button class="btn btnPrimary" onclick="nextQuestion()">次へ</button></div>
+</section>
+<section id="explanationScreen" class="appScreen" aria-label="解説" hidden>
+<h2 id="explainTitle"></h2><div id="explainText" class="explainText"></div><ul id="tipList" class="tipList"></ul>
+<div class="screenActions"><button class="btn btnSoft" onclick="showScreen('result')">結果へ</button><button class="btn btnSoft" onclick="showScreen('miss')">外した場合</button><button class="btn btnPrimary" onclick="nextQuestion()">次へ</button></div>
+</section>
+<section id="missScreen" class="appScreen" aria-label="外した場合のアレンジ" hidden>
+<h2>外した場合</h2><div id="missPlans" class="detail"></div>
+<div class="controls"><button id="previousMiss" class="btn btnSoft" onclick="changeMiss(-1)">前の例</button><span id="missPosition"></span><button id="nextMiss" class="btn btnSoft" onclick="changeMiss(1)">次の例</button></div>
+<div class="screenActions"><button class="btn btnSoft" onclick="showScreen('explanation')">解説へ</button><button class="btn btnPrimary" onclick="nextQuestion()">次へ</button></div>
+</section>
+<section id="settingsScreen" class="appScreen" aria-label="ルールと出題設定" hidden>
+<section class="card ruleCard" aria-label="ルール選択"><div class="cardBody"><select id="quickMode" aria-label="ルール"><option value="sep_double">DO · セパレートブル</option><option value="fat_master">MO · ファットブル</option><option value="fat_single">SO · ファットブル</option></select>          <div class="routeGroupTitle">ルール</div>
+          <div class="chipRow" id="modeSelector" hidden>
+            <label class="chip active"><input type="radio" name="mode" value="fat_single"> ファットブル・シングルアウト</label>
+            <label class="chip"><input type="radio" name="mode" value="fat_master"> MO · ファットブル</label>
+            <label class="chip"><input type="radio" name="mode" value="sep_double" checked> DO · セパレートブル</label>
           </div>
-        </div>
-        <div class="cardBody">
-          <div class="routeList">
-            <div id="routeArea"></div>
-          </div>
-        </div>
-      </section>
 
-      <section class="card">
-        <div class="cardHeader">
-          <div>
-            <h2 class="cardTitle">解説</h2>
-            <div class="cardSub">唯一の正解を押しつけず、よく使われる考え方を短く表示します</div>
-          </div>
-        </div>
-        <div class="cardBody">
-          <div class="explainBox">
-            <h3 id="explainTitle">考え方</h3>
-            <div class="explainText" id="explainText"></div>
-            <ul class="tipList" id="tipList"></ul>
-            <h3>外した場合のアレンジ</h3>
-            <div id="missPlans" class="detail"></div>
-          </div>
-        </div>
-      </section>
+</div></section>
+          <div class="practiceSettings">
 
-      <section class="card">
-        <div class="cardHeader">
-          <div>
-            <h2 class="cardTitle">自分アレンジ登録</h2>
-            <div class="cardSub">例: 72 に T12,D18 を追加</div>
+            <label for="rangePreset">点数帯</label>
+            <select id="rangePreset">
+              <option value="">自由に指定</option>
+              <option value="2-170">2〜170</option>
+              <option value="2-60">2〜60</option>
+              <option value="61-100">61〜100</option>
+              <option value="101-120">101〜120</option>
+              <option value="121-170">121〜170</option>
+              <option value="171-180">171〜180（MO/SO）</option>
+            </select>
+            <div class="rangeRow">
+              <label>下限<input id="rangeMin" type="number" inputmode="numeric" min="2" max="180" value="2"></label>
+              <span>〜</span>
+              <label>上限<input id="rangeMax" type="number" inputmode="numeric" min="2" max="180" value="170"></label>
+              <button class="btn btnSoft" onclick="applyPracticeSettings()">範囲を適用</button>
+            </div>
+            <label>出題順<select id="questionOrder"><option value="random">ランダム</option><option value="sequential">点数の小さい順</option></select></label>
+            <label class="reviewToggle"><input id="reviewPriority" type="checkbox" checked> 間違えた問題を優先して復習</label>
+            <p class="detail" id="rangeMessage" role="status"></p>
           </div>
-        </div>
-        <div class="cardBody">
+
+<p id="targetMessage" class="detail" role="status"></p>
+</section>
+<section id="statsScreen" class="appScreen" aria-label="保存した成績" hidden><h2>成績</h2>
+          <div class="stats" aria-label="現在のルールの成績">
+            <strong>正答率 <span id="accuracy">—</span></strong>
+            <span id="statsCount">0正解 / 0回答</span>
+            <div id="reviewScores">復習待ちはありません</div>
+            <small>成績はルール別にこの端末へ保存。未回答は集計しません。</small>
+          </div>
+          <p id="storageNotice" role="status"></p>
+
+<div class="screenActions"><button class="btn btnSoft" onclick="showScreen('custom')">自分アレンジ</button><button class="btn btnPrimary" onclick="showScreen('practice')">練習に戻る</button></div>
+</section>
+<section id="customScreen" class="appScreen" aria-label="自分アレンジ登録" hidden><h2>自分アレンジ登録</h2>
           <div class="customBox">
             <div class="formRow">
               <input type="number" id="customScore" min="2" max="180" inputmode="numeric" placeholder="点数" aria-label="登録する点数">
@@ -201,11 +118,12 @@
             </div>
             <p id="customMessage" role="status" class="detail"></p>
             <div class="savedList" id="savedList"></div>
+            <div class="controls"><button id="previousSaved" class="btn btnSoft" onclick="changeSaved(-1)">前の登録</button><span id="savedPosition"></span><button id="nextSaved" class="btn btnSoft" onclick="changeSaved(1)">次の登録</button></div>
           </div>
-        </div>
-      </section>
-    </div>
-  </div>
+
+<button class="btn btnPrimary" onclick="showScreen('stats')">成績へ戻る</button>
+</section>
+<p id="offlineStatus" role="status" hidden></p>
 </div>
 <dialog id="scorePicker" aria-labelledby="scorePickerTitle">
   <div class="pickerHeader">

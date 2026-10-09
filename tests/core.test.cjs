@@ -64,3 +64,12 @@ test('miss arrangements respect two remaining darts, bull rules and busts',()=>{
  assert.ok(!Core.missPlans(50,['BULL'],'fat_master').some(p=>p.actual==='SB'));
  assert.ok(Core.missPlans(2,['D1'],'sep_double').some(p=>p.reason==='bust'));
 });
+test('sequential order starts at the bottom, skips impossible scores and wraps',()=>{
+ const scores=Core.candidates(158,164,'sep_double');
+ assert.deepEqual(scores,[158,160,161,164]);
+ assert.equal(Core.nextSequential(scores,null),158);
+ assert.equal(Core.nextSequential(scores,158),160);
+ assert.equal(Core.nextSequential(scores,164),158);
+ assert.equal(Core.nextSequential([40],40),40);
+ assert.equal(Core.nextSequential([],null),null);
+});

@@ -123,6 +123,11 @@ let resultReceipt = null;
 let answerShown = false;
 let selectedPrefix = 'S';
 let targetPractice = false;
+let activeScreen = 'practice';
+let missIndex = 0;
+let sequenceKey = '';
+let sequenceScore = null;
+let savedPage = 0;
 let startScore = 0;
 let currentScore = 0;
 let throws = [];
@@ -286,6 +291,8 @@ function updateScores(){
 }
 function updateAll(){
   updateModeChips();
+  document.getElementById('quickMode').value = currentMode();
+  document.getElementById('activeModeLabel').textContent = {fat_single:'SO',fat_master:'MO',sep_double:'DO'}[currentMode()];
   updateScores();
   updateThrows();
   updateRoutes();
@@ -306,7 +313,11 @@ function newGame(){
     return;
   }
   const review = document.getElementById('reviewPriority').checked;
-  const next = Core.select(pool, progress[currentMode()] || {}, review, startScore);
+  const sequential = document.getElementById('questionOrder').value === 'sequential';
+  const key = `${currentMode()}:${min}:${max}`;
+  if(key !== sequenceKey){ sequenceKey = key; sequenceScore = null; }
+  const next = sequential ? Core.nextSequential(pool, sequenceScore) : Core.select(pool, progress[currentMode()] || {}, review, startScore);
+  if(sequential) sequenceScore = next;
   const omitted = max - min + 1 - pool.length;
   document.getElementById('rangeMessage').textContent = `${pool.length}種類から出題${omitted ? `（3本で上がれない${omitted}点数を除外）` : ''}。`;
   saveSettings();
@@ -323,8 +334,9 @@ function beginQuestion(score){
   history = [];
   setStatus('info','入力途中','ルートを入力して「回答する」で答え合わせします。');
   updateAll(); showStandardAnswer();
+  showScreen('practice');
 }
-const scoreBands = [[2,40],[41,80],[81,120],[121,160],[161,180]];
+const scoreBands = [[2,20],[21,40],[41,60],[61,80],[81,100],[101,120],[121,140],[141,160],[161,180]];
 function showScoreBand(index){
   const [min,max] = scoreBands[index];
   document.querySelectorAll('#scoreBands button').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
@@ -337,7 +349,7 @@ function showScoreBand(index){
     button.onclick = ()=>{
       startTargetPractice(score);
       document.getElementById('scorePicker').close();
-      document.querySelector('.boardSection').scrollIntoView({block:'start'});
+      showScreen('practice');
     };
     choices.appendChild(button);
   }
@@ -368,6 +380,7 @@ function startTargetPractice(score){
 
 function clearThrows(){
   retractResult();
+  showScreen('practice');
   answerShown = false;
   currentScore = startScore;
   throws = [];
@@ -376,8 +389,9 @@ function clearThrows(){
   updateAll(); showStandardAnswer();
 }
 function undoThrow(){
-  if(!history.length){ if(resultReceipt){ retractResult(); answerShown = false; setStatus('info','未回答','回答を取り消しました。'); updateAll(); showStandardAnswer(); } return; }
+  if(!history.length){ if(resultReceipt){ retractResult(); showScreen('practice'); answerShown = false; setStatus('info','未回答','回答を取り消しました。'); updateAll(); showStandardAnswer(); } return; }
   retractResult();
+  showScreen('practice');
   answerShown = false;
   const back = history.pop();
   currentScore = back.prevScore;
@@ -420,6 +434,9 @@ function submitAnswer(impossible = false){
     setStatus('bad','不正解',detail + ' 復習対象に保存しました。');
   }
   updateAll(); showStandardAnswer();
+  document.getElementById('resultQuestion').textContent = `出題 ${startScore}点 / ${currentModeLabel()}`;
+  document.getElementById('submittedRoute').textContent = impossible ? 'あなたの回答：3本で上がれない' : 'あなたの回答：' + throws.join(' → ');
+  showScreen('result');
 }
 
 function saveCustomRoute(){
@@ -446,21 +463,24 @@ function updateSavedList(){
   const store = getCustomStore();
   const mode = currentMode();
   const data = store[mode] || {};
-  const entries = Object.entries(data).sort((a,b)=>Number(b[0]) - Number(a[0]));
+  const entries = Object.entries(data).sort((a,b)=>Number(b[0])-Number(a[0])).flatMap(([score,routes])=>routes.map(route=>({score,route})));
+  const total = Math.max(1,Math.ceil(entries.length/2));
+  savedPage = Math.max(0,Math.min(total-1,savedPage));
   const area = document.getElementById('savedList');
-  if(!entries.length){
-    area.innerHTML = '<div class="savedItem"><div><div class="savedScore">登録なし</div><div>このルールの自分登録はまだありません</div></div></div>';
-    return;
+  area.textContent = '';
+  for(const {score,route} of entries.slice(savedPage*2,savedPage*2+2)){
+    const item = document.createElement('div');
+    item.className = 'savedItem';
+    item.textContent = `${score}点: ${route.join(' → ')}`;
+    area.appendChild(item);
   }
-  area.innerHTML = entries.map(([score, routes])=>{
-    return `<div class="savedItem">
-      <div>
-        <div class="savedScore">${score} 点 / ${currentModeLabel()}</div>
-        <div class="mono">${routes.map(r=>r.join(' → ')).join('<br>')}</div>
-      </div>
-    </div>`;
-  }).join('');
+  if(!entries.length) area.textContent = '登録なし';
+  document.getElementById('savedPosition').textContent = `${savedPage+1} / ${total}`;
+  document.getElementById('previousSaved').disabled = savedPage===0;
+  document.getElementById('nextSaved').disabled = savedPage===total-1;
 }
+function changeSaved(delta){savedPage += delta; updateSavedList();}
+
 function buildButtons(){
   const grid = document.getElementById('numberGrid');
   for(let number=1;number<=20;number++){
@@ -521,10 +541,10 @@ function updateStats(){
   document.getElementById('accuracy').textContent = attempts ? `${Math.round(correct / attempts * 100)}%` : '—';
   document.getElementById('statsCount').textContent = `${correct}正解 / ${attempts}回答`;
   const weak = entries.filter(([,s])=>s.review).map(([score])=>Number(score)).sort((a,b)=>a-b);
-  document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.join('、')}点` : '復習待ちはありません';
+  document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.slice(0,16).join('、')}点${weak.length>16 ? ` ほか${weak.length-16}件` : ''}` : '復習待ちはありません';
 }
 function saveSettings(){
-  writeStorage(SETTINGS_KEY, { mode: currentMode(), min: Number(document.getElementById('rangeMin').value), max: Number(document.getElementById('rangeMax').value), review: document.getElementById('reviewPriority').checked });
+  writeStorage(SETTINGS_KEY, { mode: currentMode(), min: Number(document.getElementById('rangeMin').value), max: Number(document.getElementById('rangeMax').value), review: document.getElementById('reviewPriority').checked, order: document.getElementById('questionOrder').value });
 }
 function restoreSettings(){
   const settings = readStorage(SETTINGS_KEY, {});
@@ -534,12 +554,14 @@ function restoreSettings(){
     document.getElementById('rangeMax').value = settings.max;
   }
   document.getElementById('reviewPriority').checked = settings.review !== false;
+  document.getElementById('questionOrder').value = settings.order === 'sequential' ? 'sequential' : 'random';
+  updateOrderControls();
 }
 function updateMissPlans(){
   const area = document.getElementById('missPlans');
   if(!answerShown){ area.textContent = '回答後に表示します。'; return; }
   const route = standardRoutes(startScore)[0];
-  if(!route){ area.textContent = '3本以内の上がり目はありません。次のラウンドに上がりやすい点数を残しましょう。'; return; }
+  if(!route){ area.textContent = '3本以内の上がり目はありません。次のラウンドに上がりやすい点数を残しましょう。'; renderMiss(); return; }
   area.textContent = '';
   const heading = document.createElement('p');
   heading.textContent = `最初の${route[0]}を外した例（残り2本）。`;
@@ -548,8 +570,11 @@ function updateMissPlans(){
     const item = document.createElement('p');
     const result = plan.done ? (plan.correct ? 'そのまま上がり' : plan.reason === 'finish-rule' ? 'アウト条件違反。このラウンド開始時の点数に戻ります。' : 'バースト。このラウンド開始時の点数に戻ります。') : plan.route ? `残り${plan.remaining}点 → ${plan.route.join(' → ')}` : `残り${plan.remaining}点。残り2本では上がれません。${plan.nextTurn ? `次のラウンドなら ${plan.nextTurn.join(' → ')}` : '次の上がり目を作る必要があります。'}`;
     item.textContent = `${plan.actual === 'MISS' ? '得点なし' : plan.actual + 'に入った場合'}: ${result}`;
+    item.className = 'missItem';
     area.appendChild(item);
   }
+  missIndex = 0;
+  renderMiss();
 }
 document.querySelectorAll('input[name="mode"]').forEach(el=>{
   el.addEventListener('change', ()=>{
@@ -581,6 +606,37 @@ document.querySelectorAll('[data-prefix]').forEach(button => {
     document.getElementById('inputKind').textContent = button.textContent + 'を入力';
   });
 });
+function showScreen(name){
+  if(name === 'practice' && resultReceipt) name = 'result';
+  if(['result','explanation','miss'].includes(name) && !resultReceipt) name = 'practice';
+  activeScreen = name;
+  document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
+  document.querySelectorAll('[data-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.screen===name)));
+}
+function nextQuestion(){
+  if(targetPractice) startTargetPractice(startScore); else newGame();
+}
+function applyPracticeSettings(){
+  sequenceKey = ''; sequenceScore = null;
+  newGame();
+}
+function updateOrderControls(){
+  document.getElementById('reviewPriority').disabled = document.getElementById('questionOrder').value === 'sequential';
+}
+document.getElementById('quickMode').addEventListener('change',event=>{const radio=document.querySelector(`input[name="mode"][value="${event.target.value}"]`);radio.checked=true;radio.dispatchEvent(new Event('change'));});
+document.getElementById('questionOrder').addEventListener('change',()=>{sequenceKey='';sequenceScore=null;updateOrderControls();saveSettings();});
+function renderMiss(){
+  const items = document.querySelectorAll('.missItem');
+  items.forEach((item,index)=>{item.hidden=index!==missIndex;});
+  document.getElementById('missPosition').textContent = items.length ? `${missIndex+1} / ${items.length}` : '';
+  document.getElementById('previousMiss').disabled = missIndex===0;
+  document.getElementById('nextMiss').disabled = missIndex>=items.length-1;
+}
+function changeMiss(delta){
+  const count = document.querySelectorAll('.missItem').length;
+  missIndex = Math.max(0, Math.min(count-1,missIndex+delta));
+  renderMiss();
+}
 async function boot(){
   restoreSettings(); buildButtons(); updateSavedList();
   await loadCheckoutData();
