@@ -43,7 +43,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
     assert.equal(await page.locator('#scorePicker').isVisible(),false);
   };
   const enter=async(prefix,number)=>page.locator(`#dartboardHost [data-token="${prefix}${number}"]`).last().click();
-  const outerBull=async()=>{const target=page.locator('[data-outer-bull]');const box=await target.boundingBox();await target.click({position:{x:box.width*.2,y:box.height*.5}});};
+  const outerBull=async()=>{const target=page.locator('#dartboardHost [data-outer-bull]');const box=await target.boundingBox();await target.click({position:{x:box.width*.2,y:box.height*.5}});};
   const submit=async()=>page.getByRole('button',{name:'回答する',exact:true}).click();
   const next=async()=>page.getByRole('button',{name:'次の問題',exact:true}).click();
   assert.equal(await page.evaluate(()=>checkoutByScore.size),179);
@@ -53,8 +53,8 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.deepEqual(await page.locator('#dartboardHost text').allTextContents(),['20','1','18','4','13','6','10','15','2','17','3','19','7','16','8','11','14','9','12','5']);
   assert.equal(await page.locator('#dartboardHost [data-token="D20"]').count(),1);
   assert.equal(await page.locator('#dartboardHost [data-token="T20"]').count(),1);
-  assert.match(await page.locator('[data-token="T20"]').getAttribute('d'),/A112,112.*A94,94/);
-  assert.match(await page.locator('[data-token="D20"]').getAttribute('d'),/A174,174.*A154,154/);
+  assert.match(await page.locator('#dartboardHost [data-token="T20"]').getAttribute('d'),/A112,112.*A94,94/);
+  assert.match(await page.locator('#dartboardHost [data-token="D20"]').getAttribute('d'),/A174,174.*A154,154/);
 
   assert.ok(await screen('practice')); await fits('practice');
   for(const size of [{width:375,height:667},{width:320,height:568},{width:390,height:664}]){
@@ -68,7 +68,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await range(40,40);await enter('D',20);
   assert.equal(await page.locator('.selectedHit').getAttribute('data-token'),'D20');
   assert.equal(await page.locator('.selectedHit').evaluate(el=>getComputedStyle(el).fill),'rgb(250, 204, 21)');
-  assert.equal(await page.locator('[data-outer-bull]').getAttribute('r'),'30');
+  assert.equal(await page.locator('#dartboardHost [data-outer-bull]').getAttribute('r'),'30');
 
   assert.equal(await page.locator('#statsCount').textContent(),'0標準アレンジ / 0回答');
   assert.equal(await page.locator('#standardAnswer').isVisible(),false);
@@ -104,12 +104,20 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.getByRole('button',{name:'練習',exact:true}).click();assert.ok(await screen('practice'));
   await page.getByRole('button',{name:'成績',exact:true}).click();
   await page.getByRole('button',{name:'自分アレンジ',exact:true}).click();
-  await page.locator('#customScore').fill('72');await page.locator('#customRoute').fill('T12,D18');
+  await page.locator('#customBoardHost [data-token="T12"]').click();
+  await page.locator('#customBoardHost [data-token="D18"]').click();
+  assert.equal(await page.locator('#customScore').textContent(),'72点');
   await page.getByRole('button',{name:'登録',exact:true}).click();
   assert.match(await page.locator('#savedList').textContent(),/T12 → D18/);await fits('custom');
   await page.setViewportSize({width:320,height:568});await fits('custom');await page.setViewportSize({width:390,height:844});
-  await page.locator('#customScore').fill('9');await page.locator('#customRoute').fill('D1,D4');
-  await page.getByRole('button',{name:'登録',exact:true}).click();assert.match(await page.locator('#customMessage').textContent(),/合計点/);
+  await page.locator('#customBoardHost [data-token="S9"]').last().click();
+  await page.getByRole('button',{name:'登録',exact:true}).click();assert.match(await page.locator('#customMessage').textContent(),/アウト条件/);
+  await page.getByRole('button',{name:'クリア',exact:true}).click();
+  await page.getByRole('button',{name:'登録一覧',exact:true}).click();await fits('saved');
+  assert.match(await page.locator('#savedList').textContent(),/72点: T12 → D18/);
+  await chooseTarget(72);await enter('T',12);await enter('D',18);await submit();
+  assert.equal(await page.locator('#resultDetail').textContent(),'マイアレンジでフィニッシュ！');
+  assert.equal(await page.locator('.celebration span').count(),24);
   await range(121,170,'sequential');assert.equal(await page.locator('#startScore').textContent(),'121');
   assert.equal(await page.locator('#reviewPriority').isDisabled(),true);
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();
@@ -136,7 +144,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.match(await page.locator('#resultText').textContent(),/正解/);await next();
   assert.equal(await page.locator('#startScore').textContent(),'169');
   await settings();await page.locator('#quickMode').selectOption('fat_master');
-  await chooseTarget(50);assert.equal(await page.locator('[data-outer-bull]').getAttribute('data-token'),'BULL');
+  await chooseTarget(50);assert.equal(await page.locator('#dartboardHost [data-outer-bull]').getAttribute('data-token'),'BULL');
   await outerBull();await submit();assert.match(await page.locator('#resultText').textContent(),/正解/);
   await chooseTarget(60);await enter('T',20);await submit();assert.match(await page.locator('#resultText').textContent(),/正解/);
   await settings();await page.locator('#quickMode').selectOption('fat_single');
@@ -144,12 +152,12 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await settings();await page.locator('#quickMode').selectOption('sep_double');
   await chooseTarget(65);await outerBull();await enter('D',20);await submit();
   assert.match(await page.locator('#resultText').textContent(),/正解/);
-  await range(170,170);await enter('T',20);await enter('T',20);await page.getByRole('button',{name:'ブル（50点）',exact:true}).click();await submit();
+  await range(170,170);await enter('T',20);await enter('T',20);await page.locator('#dartboardHost').getByRole('button',{name:'ブル（50点）',exact:true}).click();await submit();
   assert.match(await page.locator('#resultText').textContent(),/正解/);
   await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
   await page.close();await context.setOffline(true);page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base);await ready();assert.equal(await page.evaluate(()=>checkoutByScore.size),179);
-  await fits('practice');await enter('T',20);await enter('T',20);await page.getByRole('button',{name:'ブル（50点）',exact:true}).click();await submit();
+  await fits('practice');await enter('T',20);await enter('T',20);await page.locator('#dartboardHost').getByRole('button',{name:'ブル（50点）',exact:true}).click();await submit();
   assert.match(await page.locator('#resultText').textContent(),/正解/);await fits('result');
   await page.evaluate(()=>{progress[currentMode()]=Object.fromEntries(Array.from({length:24},(_,i)=>[i+2,{attempts:1,correct:1,standardAttempts:1,standardCorrect:0,review:true}]));updateStats();});
   await page.getByRole('button',{name:'成績',exact:true}).click();

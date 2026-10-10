@@ -64,6 +64,7 @@ let mistakesPage = 0;
 let sequenceKey = '';
 let sequenceScore = null;
 let savedPage = 0;
+let customThrows = [];
 let startScore = 0;
 let currentScore = 0;
 let throws = [];
@@ -361,16 +362,27 @@ function submitAnswer(impossible = false){
   document.getElementById('resultQuestion').textContent = `出題 ${startScore}点 / ${currentModeLabel()}`;
   document.getElementById('submittedRoute').textContent = impossible ? 'あなたの回答：3本で上がれない' : 'あなたの回答：' + throws.join(' → ');
   showScreen('result');
-  if(standardMatch && !impossible){
-    document.getElementById('resultDetail').textContent = 'ナイスアレンジ！';
+  const customMatch = correct && !impossible && customRoutes(startScore).some(route=>routeEquals(route,throws));
+  if(customMatch || (standardMatch && !impossible)){
+    document.getElementById('resultDetail').textContent = customMatch ? 'マイアレンジでフィニッシュ！' : 'ナイスアレンジ！';
     celebrateStandardAnswer();
   }
 }
 
+function updateCustomBoard(){
+  const score=customThrows.reduce((sum,token)=>sum+Core.value(token),0);
+  document.getElementById('customScore').textContent = `${score}点`;
+  document.getElementById('customRoute').textContent = customThrows.length ? customThrows.join(' → ') : 'ボードでルートを入力';
+  Dartboard.update(document.getElementById('customBoardHost'),currentMode(),customThrows.length>=3,customThrows.at(-1));
+}
+function editCustomRoute(clear){
+  if(clear) customThrows=[]; else customThrows.pop();
+  document.getElementById('customMessage').textContent='';
+  updateCustomBoard();
+}
 function saveCustomRoute(){
-  const score = Number(document.getElementById('customScore').value);
-  const raw = document.getElementById('customRoute').value.trim();
-  const tokens = raw.split(',').map(s=>Core.normalize(s.trim().toUpperCase())).filter(Boolean);
+  const tokens = [...customThrows];
+  const score = tokens.reduce((sum,token)=>sum+Core.value(token),0);
   const message = document.getElementById('customMessage');
   if(!Number.isInteger(score) || score < 2 || score > 180 || !Core.validRoute(score, tokens, currentMode())){
     message.textContent = '2〜180点、3本以内、合計点と現在のアウト条件を満たすルートを入力してください。';
@@ -381,8 +393,8 @@ function saveCustomRoute(){
   if(!store[mode][score]) store[mode][score] = [];
   if(!store[mode][score].some(r=>routeEquals(r,tokens))) store[mode][score].push(tokens);
   if(!setCustomStore(store)){ message.textContent = '保存できませんでした。端末の保存設定を確認してください。'; return; }
-  document.getElementById('customScore').value = '';
-  document.getElementById('customRoute').value = '';
+  customThrows = [];
+  updateCustomBoard();
   message.textContent = 'このルールの候補に保存しました。';
   updateSavedList(); updateRoutes();
 }
@@ -411,6 +423,13 @@ function changeSaved(delta){savedPage += delta; updateSavedList();}
 
 function buildButtons(){
   Dartboard.mount(document.getElementById('dartboardHost'), token => addThrow(token));
+  Dartboard.mount(document.getElementById('customBoardHost'), token => {
+    if(customThrows.length>=3) return;
+    customThrows.push(token);
+    document.getElementById('customMessage').textContent='';
+    updateCustomBoard();
+  });
+  updateCustomBoard();
 }
 
 function readStorage(key, fallback){
@@ -516,6 +535,8 @@ function updateMissPlans(){
 }
 document.querySelectorAll('input[name="mode"]').forEach(el=>{
   el.addEventListener('change', ()=>{
+    customThrows = [];
+    updateCustomBoard();
     // Keep confirmed results in the old mode; an unfinished question is not counted.
     const min = Number(document.getElementById('rangeMin').value);
     const max = Number(document.getElementById('rangeMax').value);
@@ -539,6 +560,8 @@ function showScreen(name){
   if(name === 'practice' && resultReceipt) name = 'result';
   if(['result','explanation','miss'].includes(name) && !resultReceipt) name = 'practice';
   document.querySelectorAll('.celebration').forEach(el=>el.remove());
+  if(name === 'custom') updateCustomBoard();
+  if(name === 'saved') updateSavedList();
   activeScreen = name;
   document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
   document.querySelectorAll('[data-result-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultScreen===name)));

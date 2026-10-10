@@ -365,3 +365,12 @@ body{background:#eef2ff}
 
 #statsScreen .stats{flex-direction:column;gap:4px;padding:8px}
 @media(max-height:650px){#statsScreen .stats{gap:2px;padding:6px}#statsScreen .stats small{font-size:11px}}
+
+.brand{font-size:22px;letter-spacing:.18em;font-weight:900}
+.customSummary{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px}
+.customSummary strong{font-size:24px}
+#customBoardHost{flex:1;min-height:0}
+#customMessage{font-size:12px;line-height:1.35;margin:0}
+.customControls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.customControls .btn{padding:8px 4px;min-height:44px}
+#savedScreen .savedList{max-height:none;overflow:visible}

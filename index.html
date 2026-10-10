@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#111827">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Darts Trainer">
-<title>ダーツ アレンジ練習</title>
+<meta name="apple-mobile-web-app-title" content="OUT">
+<title>OUT</title>
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 <link rel="icon" href="./icons/icon-192.png">
 <link rel="manifest" href="./manifest.webmanifest">
@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="wrap appShell">
-<header class="appHeader"><strong>ダーツ練習</strong><span id="activeModeLabel"></span></header>
+<header class="appHeader"><strong class="brand">OUT</strong><span id="activeModeLabel"></span></header>
 <nav class="appNav" aria-label="アプリの画面">
 <button class="btn btnSoft" data-screen="practice" onclick="showScreen('practice')">練習</button>
 <button class="btn btnSoft" data-screen="stats" onclick="showScreen('stats')">成績</button>
@@ -110,19 +110,18 @@
 
 <div class="screenActions"><button class="btn btnSoft" onclick="showScreen('custom')">自分アレンジ</button><button class="btn btnPrimary" onclick="showScreen('practice')">練習に戻る</button></div>
 </section>
-<section id="customScreen" class="appScreen" aria-label="自分アレンジ登録" hidden><h2>自分アレンジ登録</h2>
-          <div class="customBox">
-            <div class="formRow">
-              <input type="number" id="customScore" min="2" max="180" inputmode="numeric" placeholder="点数" aria-label="登録する点数">
-              <input type="text" id="customRoute" placeholder="例: T12,D18" aria-label="登録するルート" autocapitalize="characters" spellcheck="false">
-              <button class="btn btnPrimary" onclick="saveCustomRoute()">登録</button>
-            </div>
-            <p id="customMessage" role="status" class="detail"></p>
-            <div class="savedList" id="savedList"></div>
-            <div class="controls"><button id="previousSaved" class="btn btnSoft" onclick="changeSaved(-1)">前の登録</button><span id="savedPosition"></span><button id="nextSaved" class="btn btnSoft" onclick="changeSaved(1)">次の登録</button></div>
-          </div>
-
-<button class="btn btnPrimary" onclick="showScreen('stats')">成績へ戻る</button>
+<section id="customScreen" class="appScreen" aria-label="自分アレンジ登録" hidden>
+<h2>MY ARRANGE</h2>
+<div class="customSummary"><strong id="customScore">0点</strong><span id="customRoute">ボードでルートを入力</span></div>
+<div id="customBoardHost" class="dartboardHost"></div>
+<p id="customMessage" role="status" class="detail"></p>
+<div class="customControls"><button class="btn btnSoft" onclick="editCustomRoute(false)">1投戻す</button><button class="btn btnSoft" onclick="editCustomRoute(true)">クリア</button><button class="btn btnPrimary" onclick="saveCustomRoute()">登録</button></div>
+<div class="screenActions"><button class="btn btnSoft" onclick="showScreen('saved')">登録一覧</button><button class="btn btnSoft" onclick="showScreen('stats')">成績へ戻る</button></div>
+</section>
+<section id="savedScreen" class="appScreen" aria-label="登録したアレンジ" hidden>
+<h2>MY ARRANGE</h2><div class="savedList" id="savedList"></div>
+<div class="controls"><button id="previousSaved" class="btn btnSoft" onclick="changeSaved(-1)">前の登録</button><span id="savedPosition"></span><button id="nextSaved" class="btn btnSoft" onclick="changeSaved(1)">次の登録</button></div>
+<div class="screenActions"><button class="btn btnPrimary" onclick="showScreen('custom')">アレンジを登録</button><button class="btn btnSoft" onclick="showScreen('stats')">成績へ戻る</button></div>
 </section>
 <p id="offlineStatus" role="status" hidden></p>
 </div>
