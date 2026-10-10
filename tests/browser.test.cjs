@@ -79,7 +79,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.equal(await page.locator('#resultDetail').textContent(),'ナイスアレンジ！');
   assert.equal(await page.locator('.celebration span').count(),24);
   assert.equal(await page.locator('#statusBadge').count(),0);
-  assert.ok(await page.locator('#resultText').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=40));
+  assert.ok(await page.locator('#resultText').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=30));
   assert.match(await page.locator('#submittedRoute').textContent(),/D20/);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
   assert.equal(await page.locator('.celebration').count(),0);
@@ -118,20 +118,26 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await chooseTarget(72);await enter('T',12);await enter('D',18);await submit();
   assert.equal(await page.locator('#resultDetail').textContent(),'マイアレンジでフィニッシュ！');
   assert.equal(await page.locator('.celebration span').count(),24);
+  await range(120,170,'sequential');
+  const beforeSkip=await page.locator('#statsCount').textContent();
+  await enter('S',20);await next();
+  assert.equal(await page.locator('#startScore').textContent(),'121');
+  assert.equal(await page.locator('#statsCount').textContent(),beforeSkip);
+  assert.equal(await page.locator('#inputThrowCount').textContent(),'0');
   await range(121,170,'sequential');assert.equal(await page.locator('#startScore').textContent(),'121');
   assert.equal(await page.locator('#reviewPriority').isDisabled(),true);
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();
   assert.equal(await page.locator('#resultText').textContent(),'アレンジを確認');
   const footer=await page.locator('#resultScreen .resultNav button').allTextContents();
-  assert.deepEqual(footer,['結果','解説','次の問題']);
-  await page.getByRole('button',{name:'解説',exact:true}).click();await fits('explanation');
-  assert.deepEqual(await page.locator('#explanationScreen .resultNav button').allTextContents(),footer);
+  assert.deepEqual(footer,['回答を直す','次の問題']);
+  assert.equal(await page.locator('#explanationScreen').count(),0);
+  await fits('result');
   assert.match(await page.locator('#explainText').textContent(),/93点.*28点/);
   assert.equal(await page.locator('.missItem:visible').count(),4);
   const cards=await page.locator('.missItem:visible').evaluateAll(items=>items.map(el=>el.getBoundingClientRect().x));
   assert.ok(cards.every(x=>Math.abs(x-cards[0])<1),'miss examples use one column');
   assert.match((await page.locator('.missItem:visible').allTextContents()).join(' '),/S20.*101点/);
-  await page.setViewportSize({width:320,height:568});await fits('explanation');await page.setViewportSize({width:390,height:844});
+  await page.setViewportSize({width:320,height:568});await fits('result');await page.setViewportSize({width:390,height:844});
   await next();assert.equal(await page.locator('#startScore').textContent(),'122');
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();await next();
   assert.equal(await page.locator('#startScore').textContent(),'123');
@@ -165,6 +171,19 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.equal(await page.locator('#mistakeScores button').count(),9);
   await page.getByRole('button',{name:'次の点数',exact:true}).click();
   assert.match(await page.locator('#mistakeScores button').first().textContent(),/^11点/);
+  const overflowingResults=await page.evaluate(()=>{
+    const issues=[];
+    for(const mode of PracticeCore.MODES){
+      document.querySelector(`input[name="mode"][value="${mode}"]`).checked=true;
+      for(let score=2;score<=180;score++){
+        startTargetPractice(score);submitAnswer(true);
+        const el=document.getElementById('resultScreen');
+        if(el.scrollHeight>el.clientHeight+1)issues.push({mode,score});
+      }
+    }
+    return issues;
+  });
+  assert.deepEqual(overflowingResults,[], 'all combined result screens fit');
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
  }finally{
   if(browser)await browser.close();

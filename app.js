@@ -558,7 +558,7 @@ document.getElementById('rangePreset').addEventListener('change', e=>{
 document.getElementById('reviewPriority').addEventListener('change', saveSettings);
 function showScreen(name){
   if(name === 'practice' && resultReceipt) name = 'result';
-  if(['result','explanation','miss'].includes(name) && !resultReceipt) name = 'practice';
+  if(name === 'result' && !resultReceipt) name = 'practice';
   document.querySelectorAll('.celebration').forEach(el=>el.remove());
   if(name === 'custom') updateCustomBoard();
   if(name === 'saved') updateSavedList();
@@ -566,6 +566,10 @@ function showScreen(name){
   document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
   document.querySelectorAll('[data-result-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultScreen===name)));
   document.querySelectorAll('[data-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.screen===name)));
+}
+function skipQuestion(){
+  targetPractice = false;
+  newGame();
 }
 function nextQuestion(){
   if(targetPractice) startTargetPractice(startScore); else newGame();

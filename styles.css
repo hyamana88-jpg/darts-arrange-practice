@@ -374,3 +374,23 @@ body{background:#eef2ff}
 .customControls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .customControls .btn{padding:8px 4px;min-height:44px}
 #savedScreen .savedList{max-height:none;overflow:visible}
+
+#resultScreen{gap:5px}
+#resultScreen .resultBox{padding:6px 8px}
+#resultScreen #resultText{font-size:34px}
+#resultScreen #resultDetail{font-size:12px;margin:2px 0;line-height:1.3}
+#resultScreen p{margin:0;font-size:12px;line-height:1.3}
+#resultScreen h2{font-size:14px;margin:0 0 3px}
+#resultScreen .routeItem{padding:4px 8px;font-size:14px;margin:0}
+#resultScreen .explainText{font-size:12px;line-height:1.3;margin-top:3px}
+#resultScreen .missHeading{font-size:12px;margin-bottom:4px}
+#resultScreen .missGrid{gap:4px}
+#resultScreen .missItem{padding:4px 8px;font-size:12px;line-height:1.3}
+#resultScreen .missItem p{display:inline;margin:0 0 0 5px;font-size:12px}
+#resultScreen .missItem strong{display:block}
+#resultScreen .resultNav{grid-template-columns:1fr 1fr}
+.boardSection .controls{grid-template-columns:1fr 1fr}
+#submitAnswer{grid-column:1 / -1}
+@media(max-height:650px){#resultScreen{gap:3px}#resultScreen #resultText{font-size:30px}}
+@media(max-height:650px){#resultScreen{gap:1px}#resultScreen .missItem{padding:3px 6px}}
+@media(max-height:650px){#resultScreen .resultBox{padding:4px 8px}#resultScreen .missGrid{gap:2px}}
