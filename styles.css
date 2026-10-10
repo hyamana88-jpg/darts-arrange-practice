@@ -407,3 +407,9 @@ body{background:#eef2ff}
 .arrangementRoutes{min-width:0;font-size:17px;line-height:1.5;overflow-wrap:anywhere;font-weight:600}
 .noCheckout{font-size:14px;color:var(--muted);font-weight:400}
 .ownArrangement{font-size:14px;color:#7c3aed;margin-top:4px}
+
+.routeSteps{display:flex;flex-wrap:wrap;gap:3px}
+.routeStep{background:#eef2ff;color:#312e81;padding:3px 5px;border-radius:6px;font-weight:700;font-size:12px}
+.routeTip{margin-top:4px;font-size:12px;line-height:1.35}
+#resultScreen .missItem strong{display:inline}
+@media(max-height:650px){.routeStep{padding:2px 4px;font-size:11px}.routeTip{font-size:11px;margin-top:2px}#resultScreen .missItem,#resultScreen .missItem p{font-size:11px}}

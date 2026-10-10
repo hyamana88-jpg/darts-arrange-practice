@@ -138,16 +138,28 @@ function routeEquals(a,b){
 }
 function updateExplanation(){
   document.getElementById('explainTitle').textContent = `${startScore}点の組み立て`;
+  const area=document.getElementById('explainText');area.textContent='';
+  if(!answerShown){area.textContent='回答後に表示します。';return;}
   const route=standardRoutes(startScore)[0];
-  let text='回答後に表示します。';
-  if(answerShown){
-    if(!route) text='現在のルールでは3本以内に上がれない点数です。';
-    else {
-      const last=route.at(-1), finish=Core.value(last);
-      text=route.length===1 ? `${Dartboard.label(last)}で直接上がれます。` : `${route.slice(0,-1).join(' → ')}で${startScore-finish}点を取り、${finish}点を残す例です。最後は${Dartboard.label(last)}。`;
-    }
-  }
-  document.getElementById('explainText').textContent=text;
+  if(!route){area.textContent='3本では上がれない点数です。得点後の残りを確認し、次のラウンドで狙える上がり目を作りましょう。';return;}
+  let remaining=startScore;
+  const steps=document.createElement('div');steps.className='routeSteps';
+  route.forEach((token,index)=>{
+    remaining-=Core.value(token);
+    const step=document.createElement('span');step.className='routeStep';
+    step.textContent=`${index+1}投目 ${token==='BULL'?'ブル':token} → ${remaining===0?'上がり':'残り'+remaining+'点'}`;
+    steps.appendChild(step);
+  });
+  area.appendChild(steps);
+  const last=route.at(-1), finish=Core.value(last);
+  let tip;
+  if(last==='BULL') tip=currentMode()==='sep_double' ? '最後はブル50点。アウターブル25点では上がれません。' : '最後はブル50点。ファットブルでは内側・外側どちらでも上がれます。';
+  else if(last[0]==='D'){
+    const n=Number(last.slice(1));
+    tip=n%2===0 ? `${finish}点をD${n}で狙う形。S${n}に入っても${n}点が残り、次の投があればD${n/2}で上がれます。` : `${finish}点をD${n}で狙う形。S${n}だと奇数の${n}点が残り、ダブル1本では上がれません。`;
+  }else if(last[0]==='T') tip=`マスターアウトなら最後の${last}でも上がれます。シングルに入った場合は、残りを計算し直しましょう。`;
+  else tip=`シングルアウトなら最後の${last}で上がれます。残り${finish}点を取り切る形です。`;
+  const note=document.createElement('div');note.className='routeTip';note.textContent=tip;area.appendChild(note);
 }
 function updateRoutes(){
   if(!answerShown && !resultReceipt){ document.getElementById('routeArea').textContent = '「回答する」を押すと候補を表示します。'; return; }

@@ -145,7 +145,8 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.deepEqual(footer,['回答を直す','次の問題']);
   assert.equal(await page.locator('#explanationScreen').count(),0);
   await fits('result');
-  assert.match(await page.locator('#explainText').textContent(),/93点.*28点/);
+  assert.match(await page.locator('#explainText').textContent(),/1投目 T20 → 残り61点.*2投目 T11 → 残り28点.*3投目 D14 → 上がり/);
+  assert.match(await page.locator('.routeTip').textContent(),/S14.*14点.*D7/);
   assert.equal(await page.locator('.missItem:visible').count(),4);
   const cards=await page.locator('.missItem:visible').evaluateAll(items=>items.map(el=>el.getBoundingClientRect().x));
   assert.ok(cards.every(x=>Math.abs(x-cards[0])<1),'miss examples use one column');
