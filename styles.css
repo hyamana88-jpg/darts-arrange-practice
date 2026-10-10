@@ -362,3 +362,6 @@ body{background:#eef2ff}
 .celebration span{position:absolute;left:var(--x);top:-15px;width:9px;height:14px;background:var(--color);animation:confettiFall 1.35s var(--delay) ease-in forwards}
 @keyframes confettiFall{from{transform:translateY(0) rotate(0);opacity:1}to{transform:translateY(520px) rotate(540deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.celebration{display:none}}
+
+#statsScreen .stats{flex-direction:column;gap:4px;padding:8px}
+@media(max-height:650px){#statsScreen .stats{gap:2px;padding:6px}#statsScreen .stats small{font-size:11px}}

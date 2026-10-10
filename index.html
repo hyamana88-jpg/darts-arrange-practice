@@ -90,7 +90,7 @@
               <button class="btn btnSoft" onclick="applyPracticeSettings()">範囲を適用</button>
             </div>
             <label>出題順<select id="questionOrder"><option value="random">ランダム</option><option value="sequential">点数の小さい順</option></select></label>
-            <label class="reviewToggle"><input id="reviewPriority" type="checkbox" checked> 間違えた問題を優先して復習</label>
+            <label class="reviewToggle"><input id="reviewPriority" type="checkbox" checked> 標準アレンジを復習する点数を優先</label>
             <p class="detail" id="rangeMessage" role="status"></p>
           </div>
 
@@ -98,12 +98,12 @@
 </section>
 <section id="statsScreen" class="appScreen" aria-label="保存した成績" hidden><h2>成績</h2>
           <div class="stats" aria-label="現在のルールの成績">
-            <strong>正答率 <span id="accuracy">—</span></strong>
-            <span id="statsCount">0正解 / 0回答</span>
+            <strong>標準アレンジ一致率 <span id="accuracy">—</span></strong>
+            <span id="statsCount">0標準アレンジ / 0回答</span>
             <div id="reviewScores">復習待ちはありません</div>
-            <small>成績はルール別にこの端末へ保存。未回答は集計しません。</small>
+            <small>一致率は更新後の回答から集計。端末にルール別で保存。</small>
           </div>
-          <h3 class="mistakeTitle">間違えた点数</h3>
+          <h3 class="mistakeTitle">標準アレンジを復習</h3>
           <div id="mistakeScores" class="mistakeScores"></div>
           <div class="mistakePages"><button id="previousMistakes" class="btn btnSoft" onclick="changeMistakes(-1)">前の点数</button><span id="mistakesPosition"></span><button id="nextMistakes" class="btn btnSoft" onclick="changeMistakes(1)">次の点数</button></div>
           <p id="storageNotice" role="status"></p>

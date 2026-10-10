@@ -70,11 +70,11 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.equal(await page.locator('.selectedHit').evaluate(el=>getComputedStyle(el).fill),'rgb(250, 204, 21)');
   assert.equal(await page.locator('[data-outer-bull]').getAttribute('r'),'30');
 
-  assert.equal(await page.locator('#statsCount').textContent(),'0正解 / 0回答');
+  assert.equal(await page.locator('#statsCount').textContent(),'0標準アレンジ / 0回答');
   assert.equal(await page.locator('#standardAnswer').isVisible(),false);
   await submit();assert.ok(await screen('result'));await fits('result');
   await page.setViewportSize({width:320,height:568});await fits('result');await page.setViewportSize({width:390,height:844});
-  assert.equal(await page.locator('#statsCount').textContent(),'1正解 / 1回答');
+  assert.equal(await page.locator('#statsCount').textContent(),'1標準アレンジ / 1回答');
   assert.equal(await page.locator('#resultText').textContent(),'正解');
   assert.equal(await page.locator('#resultDetail').textContent(),'ナイスアレンジ！');
   assert.equal(await page.locator('.celebration span').count(),24);
@@ -83,16 +83,19 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   assert.match(await page.locator('#submittedRoute').textContent(),/D20/);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
   assert.equal(await page.locator('.celebration').count(),0);
-  assert.ok(await screen('practice'));assert.equal(await page.locator('#statsCount').textContent(),'0正解 / 0回答');
+  assert.ok(await screen('practice'));assert.equal(await page.locator('#statsCount').textContent(),'0標準アレンジ / 0回答');
   await enter('S',20);await enter('D',10);await submit();
   assert.equal(await page.locator('#resultText').textContent(),'正解');
   assert.equal(await page.locator('.celebration').count(),0);
+  assert.equal(await page.locator('#statsCount').textContent(),'0標準アレンジ / 1回答');
+  assert.match(await page.locator('#mistakeScores').textContent(),/40点.*1回/);
+  assert.equal(await page.evaluate(()=>progress[currentMode()][40].review),true);
   await page.getByRole('button',{name:'回答を直す',exact:true}).click();
   await page.getByRole('button',{name:'クリア',exact:true}).click();
   for(let i=0;i<3;i++)await page.getByRole('button',{name:'MISS',exact:true}).click();
   await submit();assert.match(await page.locator('#reviewScores').textContent(),/1点数/);
   await next();assert.ok(await screen('practice'));await enter('D',20);await submit();
-  assert.equal(await page.locator('#statsCount').textContent(),'1正解 / 2回答');
+  assert.equal(await page.locator('#statsCount').textContent(),'1標準アレンジ / 2回答');
   await page.getByRole('button',{name:'成績',exact:true}).click();await fits('stats');
   assert.match(await page.locator('#mistakeScores').textContent(),/40点.*1回/);
   await page.locator('#mistakeScores button').first().click();assert.equal(await page.locator('#startScore').textContent(),'40');
@@ -110,7 +113,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await range(121,170,'sequential');assert.equal(await page.locator('#startScore').textContent(),'121');
   assert.equal(await page.locator('#reviewPriority').isDisabled(),true);
   await page.getByRole('button',{name:'3本で上がれない',exact:true}).click();
-  assert.equal(await page.locator('#resultText').textContent(),'不正解');
+  assert.equal(await page.locator('#resultText').textContent(),'アレンジを確認');
   const footer=await page.locator('#resultScreen .resultNav button').allTextContents();
   assert.deepEqual(footer,['結果','解説','次の問題']);
   await page.getByRole('button',{name:'解説',exact:true}).click();await fits('explanation');
@@ -148,7 +151,7 @@ test('iPhone-sized PWA: range, rules, reversible stats, custom routes, persisten
   await page.goto(base);await ready();assert.equal(await page.evaluate(()=>checkoutByScore.size),179);
   await fits('practice');await enter('T',20);await enter('T',20);await page.getByRole('button',{name:'ブル（50点）',exact:true}).click();await submit();
   assert.match(await page.locator('#resultText').textContent(),/正解/);await fits('result');
-  await page.evaluate(()=>{progress[currentMode()]=Object.fromEntries(Array.from({length:24},(_,i)=>[i+2,{attempts:1,correct:0,review:true}]));updateStats();});
+  await page.evaluate(()=>{progress[currentMode()]=Object.fromEntries(Array.from({length:24},(_,i)=>[i+2,{attempts:1,correct:1,standardAttempts:1,standardCorrect:0,review:true}]));updateStats();});
   await page.getByRole('button',{name:'成績',exact:true}).click();
   await page.setViewportSize({width:320,height:568});await fits('stats');
   assert.equal(await page.locator('#mistakeScores button').count(),9);

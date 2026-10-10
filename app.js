@@ -348,19 +348,20 @@ function submitAnswer(impossible = false){
   const result = Core.outcome(startScore, throws, currentMode());
   const canFinish = !!Core.generatedRoute(startScore, currentMode());
   const correct = impossible ? !canFinish : result.correct;
-  recordResult(correct);
+  const standardMatch = correct && (impossible ? !canFinish : standardRoutes(startScore).some(route=>routeEquals(route,throws)));
+  recordResult(correct, standardMatch);
   answerShown = true;
   if(correct){
     setStatus('ok', '正解', impossible ? 'この点数は3本以内では上がれません。' : '成績に記録しました。');
   }else{
     const detail = impossible ? 'この点数には3本以内の上がり目があります。' : result.reason === 'bust' ? 'バーストです。' : result.reason === 'finish-rule' ? '最後のアウト条件を満たしていません。' : '入力したルートでは上がりきれていません。';
-    setStatus('bad','不正解',detail + ' 復習対象に保存しました。');
+    setStatus('warn','アレンジを確認',detail + ' 上がり目の例を確認しましょう。');
   }
   updateAll(); showStandardAnswer();
   document.getElementById('resultQuestion').textContent = `出題 ${startScore}点 / ${currentModeLabel()}`;
   document.getElementById('submittedRoute').textContent = impossible ? 'あなたの回答：3本で上がれない' : 'あなたの回答：' + throws.join(' → ');
   showScreen('result');
-  if(correct && !impossible && standardRoutes(startScore).some(route=>routeEquals(route,throws))){
+  if(standardMatch && !impossible){
     document.getElementById('resultDetail').textContent = 'ナイスアレンジ！';
     celebrateStandardAnswer();
   }
@@ -427,16 +428,18 @@ function readProgress(){
     for(const [score, item] of Object.entries(raw?.[mode] || {})){
       if(!item || !Number.isInteger(Number(score)) || Number(score) < 2 || Number(score) > 180) continue;
       if(!Number.isInteger(item.attempts) || !Number.isInteger(item.correct) || item.correct < 0 || item.attempts < item.correct) continue;
-      clean[mode][score] = { attempts: item.attempts, correct: item.correct, review: item.review === true };
+      const standardAttempts = Number.isInteger(item.standardAttempts) && item.standardAttempts >= 0 && item.standardAttempts <= item.attempts ? item.standardAttempts : 0;
+      const standardCorrect = Number.isInteger(item.standardCorrect) && item.standardCorrect >= 0 && item.standardCorrect <= standardAttempts ? item.standardCorrect : 0;
+      clean[mode][score] = { attempts: item.attempts, correct: item.correct, standardAttempts, standardCorrect, review: standardAttempts > 0 && item.review === true };
     }
   }
   return clean;
 }
-function recordResult(correct){
+function recordResult(correct, standardMatch){
   const mode = currentMode();
   const before = progress[mode][startScore];
   resultReceipt = { mode, score: startScore, before: before ? {...before} : null };
-  progress[mode][startScore] = { attempts: (before?.attempts || 0) + 1, correct: (before?.correct || 0) + Number(correct), review: !correct };
+  progress[mode][startScore] = { attempts: (before?.attempts || 0) + 1, correct: (before?.correct || 0) + Number(correct), standardAttempts: (before?.standardAttempts || 0) + 1, standardCorrect: (before?.standardCorrect || 0) + Number(standardMatch), review: !standardMatch };
   writeStorage(PROGRESS_KEY, progress);
 }
 function retractResult(){
@@ -448,28 +451,28 @@ function retractResult(){
 }
 function updateStats(){
   const entries = Object.entries(progress[currentMode()]);
-  const attempts = entries.reduce((sum,[,s])=>sum+s.attempts,0);
-  const correct = entries.reduce((sum,[,s])=>sum+s.correct,0);
+  const attempts = entries.reduce((sum,[,s])=>sum+(s.standardAttempts || 0),0);
+  const correct = entries.reduce((sum,[,s])=>sum+(s.standardCorrect || 0),0);
   document.getElementById('accuracy').textContent = attempts ? `${Math.round(correct / attempts * 100)}%` : '—';
-  document.getElementById('statsCount').textContent = `${correct}正解 / ${attempts}回答`;
+  document.getElementById('statsCount').textContent = `${correct}標準アレンジ / ${attempts}回答`;
   const weak = entries.filter(([,s])=>s.review).map(([score])=>Number(score)).sort((a,b)=>a-b);
   updateMistakes(entries);
   document.getElementById('reviewScores').textContent = weak.length ? `復習待ち: ${weak.length}点数` : '復習待ちはありません';
 }
 function updateMistakes(entries){
-  const failed = entries.filter(([,item])=>item.attempts>item.correct).sort((a,b)=>Number(a[0])-Number(b[0]));
+  const failed = entries.filter(([,item])=>(item.standardAttempts || 0)>(item.standardCorrect || 0)).sort((a,b)=>Number(a[0])-Number(b[0]));
   const total = Math.max(1,Math.ceil(failed.length/9));
   mistakesPage = Math.max(0,Math.min(total-1,mistakesPage));
   const area=document.getElementById('mistakeScores');area.textContent='';
   for(const [score,item] of failed.slice(mistakesPage*9,mistakesPage*9+9)){
     const button=document.createElement('button');button.className='btn btnSoft';
-    button.textContent=`${score}点 (${item.attempts-item.correct}回)`;
+    button.textContent=`${score}点 (${item.standardAttempts-item.standardCorrect}回)`;
     button.classList.toggle('reviewPending',item.review);
     button.title=item.review ? '復習待ち' : '復習済み';
-    button.setAttribute('aria-label',`${score}点を再練習、間違い${item.attempts-item.correct}回`);
+    button.setAttribute('aria-label',`${score}点を再練習、標準アレンジと異なる回答${item.standardAttempts-item.standardCorrect}回`);
     button.onclick=()=>startTargetPractice(Number(score));area.appendChild(button);
   }
-  if(!failed.length) area.textContent='まだ間違えた点数はありません。';
+  if(!failed.length) area.textContent='標準アレンジと異なる回答はまだありません。';
   document.getElementById('mistakesPosition').textContent=`${mistakesPage+1} / ${total}`;
   document.getElementById('previousMistakes').disabled=mistakesPage===0;
   document.getElementById('nextMistakes').disabled=mistakesPage===total-1;
