@@ -562,10 +562,34 @@ function showScreen(name){
   document.querySelectorAll('.celebration').forEach(el=>el.remove());
   if(name === 'custom') updateCustomBoard();
   if(name === 'saved') updateSavedList();
+  if(name === 'arrangements') renderArrangementTable();
   activeScreen = name;
   document.querySelectorAll('.appScreen').forEach(screen=>{ screen.hidden = screen.id !== name + 'Screen'; });
   document.querySelectorAll('[data-result-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultScreen===name)));
   document.querySelectorAll('[data-screen]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.screen===name)));
+}
+function renderArrangementTable(){
+  const [min,max]=document.getElementById('arrangementBand').value.split('-').map(Number);
+  const list=document.getElementById('arrangementList');
+  list.textContent='';
+  for(let score=min;score<=max;score++){
+    const row=document.createElement('div');row.className='arrangementRow';
+    const button=document.createElement('button');button.className='arrangementScore';
+    button.textContent=`${score}`;button.setAttribute('aria-label',`${score}点を練習`);
+    button.onclick=()=>startTargetPractice(score);
+    const routes=document.createElement('div');routes.className='arrangementRoutes';
+    const standard=standardRoutes(score);
+    const main=document.createElement('div');
+    main.textContent=standard.length ? standard.map(route=>route.map(token=>token==='BULL'?'ブル':token).join(' → ')).join(' / ') : '3本では上がれません';
+    main.className=standard.length?'':'noCheckout';routes.appendChild(main);
+    for(const route of customRoutes(score)){
+      const own=document.createElement('div');own.className='ownArrangement';
+      own.textContent='MY: '+route.map(token=>token==='BULL'?'ブル':token).join(' → ');
+      routes.appendChild(own);
+    }
+    row.append(button,routes);list.appendChild(row);
+  }
+  list.scrollTop=0;
 }
 function skipQuestion(){
   targetPractice = false;

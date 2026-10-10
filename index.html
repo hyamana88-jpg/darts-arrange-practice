@@ -20,6 +20,7 @@
 <button class="btn btnSoft" data-screen="practice" onclick="showScreen('practice')">練習</button>
 <button class="btn btnSoft" data-screen="stats" onclick="showScreen('stats')">成績</button>
 <button class="btn btnSoft" onclick="openScorePicker()">点数を選ぶ</button>
+<button class="btn btnSoft" data-screen="arrangements" onclick="showScreen('arrangements')">アレンジ表</button>
 <button class="btn btnSoft" data-screen="settings" onclick="showScreen('settings')">設定</button>
 </nav>
 <section id="practiceScreen" class="appScreen" aria-label="問題と回答入力">
@@ -52,6 +53,12 @@
 <button class="btn btnSoft" onclick="undoThrow()">回答を直す</button>
 <button class="btn btnPrimary" onclick="nextQuestion()">次の問題</button>
 </div>
+</section>
+<section id="arrangementsScreen" class="appScreen" aria-label="アレンジ表" hidden>
+<h2>アレンジ表</h2>
+<label class="arrangementFilter">点数帯 <select id="arrangementBand" aria-label="アレンジ表の点数帯" onchange="renderArrangementTable()"><option value="2-180">すべて（2〜180）</option><option value="2-60">2〜60</option><option value="61-100">61〜100</option><option value="101-120">101〜120</option><option value="121-170">121〜170</option><option value="171-180">171〜180</option></select></label>
+<p class="arrangementHint">S＝シングル / D＝ダブル / T＝トリプル<br>ブル＝50点 / SB＝25点。点数を押すと練習できます。</p>
+<div id="arrangementList" class="arrangementList" tabindex="0" aria-label="点数順のアレンジ一覧"></div>
 </section>
 <section id="settingsScreen" class="appScreen" aria-label="ルールと出題設定" hidden>
 <section class="card ruleCard" aria-label="ルール選択"><div class="cardBody"><select id="quickMode" aria-label="ルール"><option value="sep_double">ダブルアウト（セパレートブル）</option><option value="fat_master">マスターアウト（ファットブル）</option><option value="fat_single">シングルアウト（ファットブル）</option></select>          <div class="routeGroupTitle">ルール</div>

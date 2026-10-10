@@ -394,3 +394,16 @@ body{background:#eef2ff}
 @media(max-height:650px){#resultScreen{gap:3px}#resultScreen #resultText{font-size:30px}}
 @media(max-height:650px){#resultScreen{gap:1px}#resultScreen .missItem{padding:3px 6px}}
 @media(max-height:650px){#resultScreen .resultBox{padding:4px 8px}#resultScreen .missGrid{gap:2px}}
+
+.appNav{grid-template-columns:repeat(5,minmax(0,1fr))}
+.appNav .btn{font-size:11px;padding:8px 1px;white-space:nowrap}
+.arrangementFilter{display:flex;align-items:center;gap:10px;font-size:14px}
+.arrangementFilter select{flex:1;min-height:44px}
+#arrangementsScreen .arrangementHint{font-size:12px;line-height:1.5;margin:0;color:var(--muted)}
+.arrangementList{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:12px}
+.arrangementRow{display:flex;align-items:center;gap:12px;padding:12px 10px;border-bottom:1px solid var(--border)}
+.arrangementRow:last-child{border-bottom:0}
+.arrangementScore{flex:none;width:48px;min-height:44px;border:0;border-radius:10px;background:#eef2ff;color:#312e81;font-size:22px;font-weight:800;cursor:pointer}
+.arrangementRoutes{min-width:0;font-size:17px;line-height:1.5;overflow-wrap:anywhere;font-weight:600}
+.noCheckout{font-size:14px;color:var(--muted);font-weight:400}
+.ownArrangement{font-size:14px;color:#7c3aed;margin-top:4px}

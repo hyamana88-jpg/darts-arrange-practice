@@ -1,5 +1,5 @@
 const PREFIX = 'darts-trainer-' + encodeURIComponent(self.registration.scope) + '-';
-const CACHE = PREFIX + 'v12';
+const CACHE = PREFIX + 'v13';
 const ASSETS = ['./','./index.html','./styles.css','./practice-core.js','./app.js','./dartboard.js',
   './manifest.webmanifest','./darts_checkout_2_180_do_mo.json',
   './icons/apple-touch-icon.png','./icons/icon-192.png','./icons/icon-512.png'];
